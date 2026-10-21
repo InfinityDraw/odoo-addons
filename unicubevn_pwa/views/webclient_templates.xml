@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pwa_webclient_login" inherit_id="web.login_layout">     <!-- Configuración de fondo para pwa -->
+        <xpath expr="//t[@t-call='web.frontend_layout']/t[last()]" position="after">
+            <t t-set="body_classname" t-value="'o_home_menu_background'"/>
+            <t t-set="login_card_classes" t-value="'rounded-0 shadow-sm bg-white'"/>
+            </xpath>
+    </template>
+    <template id="pwa_webclient_bootstrap" inherit_id="web.webclient_bootstrap">    <!-- Configuración del color del tema y el ícono de IOS -->
+        <xpath expr="//meta[@name='theme-color']" position="replace">
+            <meta name="theme-color"
+                  t-att-content="'#FFFFFF' if request.httprequest.cookies.get('color_scheme') == 'dark' else ''"/>
+        </xpath>
+        <xpath expr="//link[@rel='apple-touch-icon']" position="replace">
+            <link rel="apple-touch-icon" href="/unicubevn_pwa/img/icon-192x192.png"/>
+        </xpath>
+    </template>
+    <template id="pwa_web_layout" inherit_id="web.layout">    <!-- Cambiar icono de favicon -->
+        <xpath expr="//link[@type='image/x-icon']" position="replace">
+            <link type="image/x-icon" rel="shortcut icon"
+                  t-att-href="x_icon or '/unicubevn_pwa/static/img/favicon.ico'"/>
+        </xpath>
+    </template>
+    <template id="pwa_webclient_offline" inherit_id="web.webclient_offline">    <!-- Cambiar la pantalla sin conexión -->
+        <xpath expr="//div[hasclass('card')]" position="replace">
+            <div class="card">
+                <img t-attf-src="data:image/png;base64,{{odoo_icon}}" alt="Logo de UniCube"/>
+                <h1>Sin conexión</h1>
+                <p>Revisa tu conexión a internet y vuelve a intentarlo. La página se cargará tan pronto como estés de vuelta en línea.</p>
+                <button onclick="location.reload()">Reintentar</button>
+            </div>
+        </xpath>
+    </template>
+</odoo>

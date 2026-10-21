@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_push_notification_tree" model="ir.ui.view">
+        <field name="name">push.notification.list</field>
+        <field name="model">push.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Dispositivos registrados para notificaciones" create="0" duplicate="false">
+                <field name="partner_id"/>
+                <field name="fcm_registration_token"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_push_notification_form" model="ir.ui.view">
+        <field name="name">push.notification.form</field>
+        <field name="model">push.notification</field>
+        <field name="arch" type="xml">
+            <form string="Detalles del dispositivo registrado">
+                <group>
+                    <field name="partner_id"/>
+                    <field name="fcm_registration_token"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="push_notification_list_view" model="ir.actions.act_window">
+        <field name="name">Dispositivos registrados</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">push.notification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">Mostrar todos los dispositivos registrados para notificaciones push</field>
+    </record>
+
+    <menuitem name="Dispositivos registrados" id="noti_devices"
+              parent="base.menu_custom" action="push_notification_list_view" groups="base.group_user"/>
+</odoo>
