@@ -1,0 +1,783 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ifdw_dms_automation_workflow
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: https://infinitydraw.es\n"
+"POT-Creation-Date: 2026-10-21 13:00+0000\n"
+"PO-Revision-Date: 2026-10-21 13:00+0000\n"
+"Last-Translator: Infinity Draw <contacta@infinitydraw.es>\n"
+"Language-Team: Infinity Draw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: model:ir.module.module,shortdesc:base.module_ifdw_dms_automation_workflow
+msgid "Automatización flujos y archivos del DMS"
+msgstr ""
+
+#: model:ir.module.module,summary:base.module_ifdw_dms_automation_workflow
+msgid "Automatización DMS configurable con soporte A->B->C, borrado estanco, candado DMS y trazabilidad en Chatter"
+msgstr ""
+
+#: model:ir.module.module,description:base.module_ifdw_dms_automation_workflow
+msgid ""
+"\n"
+"Automatización flujos y archivos del DMS\n"
+"======================================================\n"
+"Módulo desarrollado por Infinity Draw para gobernar desde interfaz gráfica toda la automatización documental sobre OCA DMS:\n"
+"\n"
+"* Nuevo submenú en Documentos > Configuración > Organizar > Automatización DMS.\n"
+"* Conexión directa con 'Plantillas DMS embebidas' (dms.field.template) respetando los almacenamientos, modelos, grupos y estructuras de carpetas ya creadas por el administrador.\n"
+"* Cabecera configurable con clonado automático por filtro de dominio, vista previa de Smart Button, selector de formatos de auto-renombrado y filtro regulable (1 KB a 100 KB, por defecto 30 KB) contra imágenes basura de firmas de correo.\n"
+"* Pestaña 1 (Reg. Chatter Auto-clasific.): Mapeo visual entre las subcarpetas de la plantilla, tipos de archivo (Fotos, Vídeos, Audios, Planos CAD/BC3, Ofimática/PDF, Otros) y Categorías DMS.\n"
+"* Pestaña 2 (Reg. Mod. Auto-clasific.): Vinculación de modelos satélite (ej. Tareas -> Proyecto, Pedidos -> Oportunidad, Facturas -> Proyecto) con autodetección del campo relacional.\n"
+"* Pestaña 3 (Reg. Mov. Archiv.): Reglas de traslado o copia de archivos entre flujos (ej. de Ventas a Proyectos al aprobarse el presupuesto con servicio de proyecto), con opción por defecto de copiar manteniendo originales por seguridad.\n"
+"* Pestaña 'Ops. Documentos' en CRM (crm.lead) para control granular de traspaso en segundos proyectos o ampliaciones.\n"
+"* Filtro 'child_of' aplicado exclusivamente en 'Documentos > Archivos' y Smart Buttons (evitando duplicados visuales en 'Documentos > Documentos').\n"
+"* Soporte completo para cadenas 'A -> B -> C' en Pestaña 3 separando canales de Entrada y Salida en espejo.\n"
+"* Sincronización de borrado desde el chatter haciendo que sea estanca por almacenamiento y respeto absoluto al bloqueo nativo ('Bloquear') del DMS.\n"
+"* Nota agrupada en el Chatter al clasificar archivos subidos manualmente (ignorando PDFs autogenerados de informes).\n"
+"    "
+msgstr ""
+
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_automation
+msgid "Regla de Automatización DMS"
+msgstr ""
+
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_automation_classify_line
+msgid "Línea de Regla Chatter Auto-clasificación"
+msgstr ""
+
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_automation_satellite_line
+msgid "Línea de Modelo Satélite Auto-clasificación (Pestaña 2)"
+msgstr ""
+
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_automation_move_line
+msgid "Línea de Movimiento de Archivos entre Subcarpetas (Pestaña 3)"
+msgstr ""
+
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_crm_transfer_log
+msgid "Historial de Traspaso de Archivos"
+msgstr ""
+
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_record_mixin
+msgid "Mixin de Conexión con Reglas de Automatización DMS"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__sequence
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__sequence
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__sequence
+msgid "Secuencia"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__sequence
+msgid "Orden de evaluación de las reglas de automatización DMS."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__name
+msgid "Nombre de la Regla"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__name
+msgid "Nombre identificativo de esta regla de automatización (ej. \"Archivos de CRM\" o \"Archivos de Proyectos\")."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__active
+msgid "Activo"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__active
+msgid "Si está desmarcado, esta regla de automatización no se ejecuta, evitando tener que borrarla."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__template_id
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Seleccionar \"Plantilla DMS embeb.\""
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__template_id
+msgid "Selecciona una de las Plantillas DMS embebidas previamente configuradas en Documentos > Configuración > Organizar > Plantillas DMS embebidas."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__storage_id
+msgid "Almacenamiento de plantilla"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__storage_id
+msgid "Almacenamiento físico (Filestore) heredado automáticamente de la Plantilla DMS embebida seleccionada (Solo lectura)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__model_id
+msgid "Modelo de plantilla"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__model_id
+msgid "Modelo principal de Odoo al que está asociada la Plantilla DMS embebida seleccionada (Solo lectura)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__model_name
+msgid "Nombre Técnico Modelo"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__group_ids
+msgid "Grupos de plantilla"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__group_ids
+msgid "Grupos de acceso del DMS configurados en la Plantilla DMS embebida seleccionada (Solo lectura)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__template_root_dir_id
+msgid "Carpeta Raíz del Molde"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__template_root_dir_id
+msgid "Carpeta raíz en Documentos > Carpetas que actúa como molde oficial de esta Plantilla DMS embebida (Solo lectura)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__auto_clone_on_create
+msgid "Clonar plantilla automáticamente con cada nuevo registro"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__auto_clone_on_create
+msgid "Clona automáticamente el árbol de carpetas de la Plantilla DMS embebida cada vez que se crea un registro que cumpla el filtro."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__filter_domain
+msgid "Filtro de registros (A cuáles SÍ / NO crear carpeta)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__filter_domain
+msgid "Define qué registros del modelo configurado en la plantilla de DMS deben generar una carpeta automáticamente (ej. excluir la etapa Plantillas en Proyectos o excluir registros con un estado específico)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__show_smart_button
+msgid "Mostrar botones Inteligentes [Documentos]"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__show_smart_button
+msgid "Muestra el botón inteligente Documentos en la barra superior del formulario del modelo principal y de sus modelos satélite."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__auto_rename_chatter
+msgid "Auto-renombrado de archivos subidos al Chatter"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__auto_rename_chatter
+msgid "Renombra automáticamente los archivos que entren por el clip del Chatter para evitar nombres repetidos desde móviles."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__rename_format
+msgid "Formato"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__rename_format
+msgid "Estructura con la que se renombrarán los archivos al guardarse en su subcarpeta del DMS."
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_0_orig
+msgid "[NombreOriginal]"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_0_seq
+msgid "[001]-[NombreOriginal]"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_1
+msgid "[AAAAMMDD-HHMM]_[Origen/Tarea]_[NombreOriginal]"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_2
+msgid "[AA-MM-DD]_[Origen/Tarea]_[NombreOriginal]"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_3
+msgid "[NombreOriginal]_[Origen/Tarea]_[AA-MM-DD]"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_4
+msgid "[Origen/Tarea]_[AA-MM-DD]_[NombreOriginal]"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__rename_format__fmt_5
+msgid "[AA-MM-DD]_[Usuario]_[Origen/Tarea]_[NombreOriginal]"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__filter_small_images
+msgid "Filtro anti-archivos basura chicos (Firmas Email)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__filter_small_images
+msgid "Descarta imágenes diminutas incrustadas en firmas de correo electrónico. Los archivos vectoriales (.svg) y planos (.dwg) nunca son bloqueados."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__min_image_size_kb
+msgid "Ignorar imágenes menores a (KB)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__min_image_size_kb
+msgid "Tamaño mínimo en Kilobytes (KB) para aceptar una imagen bitmap desde el Chatter (Rango: 1 KB a 100 KB, por defecto 20 KB)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__sync_unlink_chatter
+msgid "Sincronizar papelera Chatter <-> DMS"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__sync_unlink_chatter
+msgid "Si un usuario elimina manualmente un archivo adjunto desde la papelera del Chatter, se elimina también su copia vinculada en este almacenamiento DMS (Se respeta los archivos bloqueados con candado de seguridad del DMS)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__classify_line_ids
+msgid "Reglas de Auto-clasificación desde Chatter"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__classify_line_ids
+msgid "Define qué tipos de archivo subidos al Chatter van a cada subcarpeta de la plantilla y qué Categoría DMS se les asigna."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__satellite_line_ids
+msgid "Reglas de Modelos Extra (Satélites)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__satellite_line_ids
+msgid "Añade otros modelos de Odoo (Tareas, Pedidos de Venta, Facturas) para que sus adjuntos del Chatter vayan a la carpeta del registro principal."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__enable_file_movement
+msgid "Activar movimiento/copia de archivos entre flujos"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__enable_file_movement
+msgid "Conecta esta regla con otra regla de Automatización DMS. Soporta flujos encadenados (A -> B -> C) manteniendo separados los canales de Entrada y Salida."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__movement_role
+msgid "Modo de Configuración (Espejo)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__movement_role
+msgid "Puedes configurar tanto el Canal de Entrada (de quién recibes) como el Canal de Salida (a quién envías) sin que uno machaque al otro."
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__movement_role__as_dest
+msgid "Canal de Entrada: Recibir archivos desde una Regla de Origen (Ej. Estoy en Proyectos y recibo desde CRM)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__movement_role__as_source
+msgid "Canal de Salida: Enviar archivos hacia una Regla de Destino (Ej. Estoy en CRM y envío hacia Proyectos)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__source_automation_id
+msgid "Regla Automatización DMS de Origen"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__source_automation_id
+msgid "Regla de Automatización DMS de la que provienen los archivos iniciales (ej. Archivos de CRM)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__in_source_root_dir_id
+msgid "Carpeta Molde Origen (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__in_dest_root_dir_id
+msgid "Carpeta Molde Destino (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__in_dest_model_id
+msgid "Modelo Destino (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__origin_link_field_id
+msgid "Campo de enlace en el Destino (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__origin_link_field_id
+msgid "Campo del modelo de destino que lo conecta con el origen (se rellena automáticamente; ej. Pedido de venta en Proyectos)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__after_move_action
+msgid "Acción tras trasladar archivos (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__after_move_action__copy_keep
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__out_after_move_action__copy_keep
+msgid "Opción 1: Copiar los archivos al destino manteniendo también los originales en su carpeta de origen."
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__after_move_action__move_delete_dir
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__out_after_move_action__move_delete_dir
+msgid "Opción 2: Mover los archivos al destino y borrar los datos residuales del origen (borra los archivos y carpetas en origen)."
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__after_move_action__move_keep_dir
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation__out_after_move_action__move_keep_dir
+msgid "Opción 3: Mover los archivos al destino y borrar solo archivos residuales del origen (deja carpetas vacías en origen)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__post_chatter_summary
+msgid "Publicar nota de trazabilidad en el Chatter (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__trace_model_ids
+msgid "Modelos donde publicar nota (Entrada)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__movement_in_line_ids
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Mapeo de Subcarpetas de Entrada (Origen -> Este Modelo)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__dest_automation_id
+msgid "Regla Automatización DMS de Destino"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__dest_automation_id
+msgid "Regla de Automatización DMS hacia la que viajarán los archivos cuando se cree el registro de destino (ej. Archivos de Proyectos o Administración)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_source_root_dir_id
+msgid "Carpeta Molde Origen (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_dest_root_dir_id
+msgid "Carpeta Molde Destino (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_dest_model_id
+msgid "Modelo Destino (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_origin_link_field_id
+msgid "Campo de enlace en el Destino (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_origin_link_field_id
+msgid "Campo del modelo de destino que lo conecta con este modelo de origen."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_after_move_action
+msgid "Acción tras trasladar archivos (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_post_chatter_summary
+msgid "Publicar nota de trazabilidad en el Chatter (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__out_trace_model_ids
+msgid "Modelos donde publicar nota (Salida)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__movement_out_line_ids
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Mapeo de Subcarpetas de Salida (Este Modelo -> Destino)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__sequence
+msgid "Orden"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__sequence
+msgid "Orden de prioridad con el que se evalúa esta regla."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__automation_id
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__automation_id
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__automation_id
+msgid "Regla de Automatización"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__template_subdir_id
+msgid "Subcarpeta de la Plantilla"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__template_subdir_id
+msgid "Elige a qué subcarpeta de tu Plantilla DMS embebida irán a parar los archivos que cumplan esta fila."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__file_type_rule
+msgid "Tipo de Archivo a Clasificar"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__file_type_rule
+msgid "Selecciona la familia de archivos que se guardará automáticamente en esta subcarpeta cuando se suban por el clip del Chatter."
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__images
+msgid "Fotografías e Imágenes (JPG, PNG, HEIC, HEIF, AVIF, WEBP, DNG, RAW...)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__videos_audios
+msgid "Vídeos y Notas de Voz / Audios (MP4, MOV, WEBM, OGG, OPUS, MP3, M4A...)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__only_videos
+msgid "Solo Vídeos (MP4, MOV, AVI, MKV, WEBM, 3GP...)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__only_audios
+msgid "Solo Audios / Notas de Voz (OGG, OPUS, M4A, MP3, WAV...)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__cad_plans
+msgid "Planos CAD/BIM/Mediciones (DWG, DXF, DWF, IFC, BC3) + PDF con palabras clave"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__documents
+msgid "Documentos Ofimáticos y PDF Estándar (PDF, DOC, DOCX, XLS, XLSX, ODT, ODS...)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__archives
+msgid "Archivos Comprimidos (ZIP, RAR, 7Z, TAR, GZ)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__catch_all
+msgid "Resto de Archivos / Cajón de Sastre (Catch-All: SVG, ZIP y cualquier formato no tipificado)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__only_inheritance
+msgid "Solo Herencia / Movimiento (No recibe archivos directos del Chatter)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__filename_keywords
+msgid "Palabras clave en nombre (Opcional)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__filename_keywords
+msgid "Palabras separadas por comas (ej. \"plano, croquis, medicion, licencia\"). En Planos permite distinguir un PDF de plano frente a un PDF de presupuesto."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__custom_extensions
+msgid "Extensiones extra (Opcional)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__custom_extensions
+msgid "Extensiones adicionales separadas por comas sin el punto (ej. \"bc3, plt, rvt\")."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__category_id
+msgid "Categoría DMS a aplicar"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__category_id
+msgid "Categoría de Documentos > Configuración > Organizar > Categorías que se asignará automáticamente al archivo clasificado."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__satellite_model_id
+msgid "Modelo Extra (Satélite)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__satellite_model_id
+msgid "Modelo secundario (ej. Tarea, Pedido de Venta o Factura) cuyos archivos subidos al Chatter irán a la carpeta del modelo principal."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__link_field_id
+msgid "Campo que lo une al Modelo de plantilla"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__link_field_id
+msgid "Campo relacional dentro del Modelo Extra que apunta al registro principal (se rellena automáticamente al elegir el modelo extra)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__force_subdir_id
+msgid "Forzar Subcarpeta (Opcional)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__force_subdir_id
+msgid "Si lo dejas en blanco, los archivos se clasifican según la Pestaña 1. Si eliges una subcarpeta aquí, todos irán a ella."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__auto_tag_record_name
+msgid "Etiquetar con nombre del registro"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__auto_tag_record_name
+msgid "Añade automáticamente al archivo en el DMS una etiqueta con el nombre del registro satélite (ej. el nombre de la Tarea)."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__channel_role
+msgid "Canal de Movimiento"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_move_line__channel_role__as_dest
+msgid "Canal de Entrada (Recibir de Origen)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_move_line__channel_role__as_source
+msgid "Canal de Salida (Enviar a Destino)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__source_subdir_id
+msgid "Subcarpeta Origen (Existente)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__source_subdir_id
+msgid "Subcarpeta ya existente en la Plantilla DMS embebida de origen."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__dest_subdir_id
+msgid "Subcarpeta Destino (Existente)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_move_line__dest_subdir_id
+msgid "Subcarpeta ya existente en la Plantilla DMS embebida de destino."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_dms_file__ifdw_source_attachment_id
+msgid "Adjunto Origen Chatter"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_dms_file__ifdw_source_attachment_id
+msgid "Vincula este archivo DMS con el adjunto original subido al Chatter para sincronizar su ciclo de vida."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_dms_file__ifdw_origin_lead_id
+msgid "Oportunidad CRM de Origen"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_dms_file__ifdw_transferred_project_ids
+msgid "Proyectos a los que ya se traspasó"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_dms_file__ifdw_transferred_project_ids
+msgid "Registra a qué proyectos ya ha sido enviado este archivo para evitar duplicidades en segundos proyectos si se elige la Opción B en CRM."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__lead_id
+msgid "Oportunidad CRM"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__project_id
+msgid "Proyecto Destino"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__sale_order_id
+msgid "Pedido de Venta"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__transfer_date
+msgid "Fecha de Traspaso"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__files_count
+msgid "Archivos Traspasados"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__operation_mode
+msgid "Acción Aplicada"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_crm_transfer_log__crm_policy_used
+msgid "Filtro de Oportunidad"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_crm_lead__dms_directory_id
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_record_mixin__dms_directory_id
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_project_project__dms_directory_id
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_sale_order__dms_directory_id
+msgid "Carpeta DMS"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_project_task__dms_directory_id
+msgid "Carpeta DMS de Obra"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_crm_lead__dms_file_count
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_record_mixin__dms_file_count
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_project_project__dms_file_count
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_project_task__dms_file_count
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_sale_order__dms_file_count
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.crm_lead_view_form_ifdw_dms
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.edit_project_ifdw_dms
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_order_form_ifdw_dms
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_task_form2_ifdw_dms
+msgid "Documentos"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_crm_lead__show_dms_smart_button
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_record_mixin__show_dms_smart_button
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_project_project__show_dms_smart_button
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_project_task__show_dms_smart_button
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_sale_order__show_dms_smart_button
+msgid "Mostrar Smart Button DMS"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_crm_lead__ifdw_project_transfer_policy
+msgid "Qué hacer con los archivos al crear Proyecto(s)"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_crm_lead__ifdw_project_transfer_policy
+msgid ""
+"Permite decidir granularmente en esta Oportunidad qué ocurrirá con sus archivos cuando se confirme un Presupuesto y se cree el Proyecto:\n"
+"- Opción A: Aplica el traspaso completo según la regla global de Automatización DMS.\n"
+"- Opción B: Envía al nuevo Proyecto únicamente los archivos nuevos subidos a esta oportunidad que todavía NO hayan sido enviados a un proyecto anterior.\n"
+"- Opción C: No envía ningún archivo de esta oportunidad al próximo proyecto que se genere."
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__crm_lead__ifdw_project_transfer_policy__global_rule
+msgid "Opción A: Según regla global (Traspasar todos los archivos al crear Proyecto)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__crm_lead__ifdw_project_transfer_policy__only_new
+msgid "Opción B: Traspasar solo archivos nuevos (No enviados ya a un Proyecto anterior)"
+msgstr ""
+
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__crm_lead__ifdw_project_transfer_policy__no_transfer
+msgid "Opción C: No traspasar archivos automáticamente al próximo Proyecto (Crear carpeta limpia)"
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_crm_lead__ifdw_transfer_log_ids
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.crm_lead_view_form_ifdw_dms
+msgid "Historial de Traspasos Documentales a Proyectos"
+msgstr ""
+
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_crm_lead__ifdw_transfer_log_ids
+msgid "Muestra el registro histórico de todos los traspasos de archivos realizados desde esta Oportunidad hacia Proyectos."
+msgstr ""
+
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ir_attachment__x_ifdw_dms_synced
+msgid "Clasificado por Automatización DMS"
+msgstr ""
+
+#: code:addons/ifdw_dms_automation_workflow/models/dms_automation.py:0
+#, python-format
+msgid "El valor del \"Filtro anti-archivos basura chicos\" debe estar entre 1 KB y 100 KB (actual: %s KB)."
+msgstr ""
+
+#: code:addons/ifdw_dms_automation_workflow/models/dms_business_records.py:0
+msgid "Sin documentos en este almacenamiento"
+msgstr ""
+
+#: code:addons/ifdw_dms_automation_workflow/models/dms_business_records.py:0
+msgid "No hay carpeta activa en este flujo (los archivos aún no se han generado o fueron movidos y borrados del origen)."
+msgstr ""
+
+#: code:addons/ifdw_dms_automation_workflow/models/dms_business_records.py:0
+#, python-format
+msgid "Documentos: %s"
+msgstr ""
+
+#: model:ir.actions.act_window,name:ifdw_dms_automation_workflow.action_ifdw_dms_automation
+#: model:ir.ui.menu,name:ifdw_dms_automation_workflow.menu_ifdw_dms_automation
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_list
+msgid "Automatización DMS"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Muestra visual de cómo se verá el botón inteligente en los formularios (Botón de vista previa sin actividad)"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Muestra"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Archivado"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Nombre de la Regla de Automatización"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Ej. Archivos de CRM / Archivos de Proyectos"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Opciones y comportamiento generales"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Reg. Chatter Auto-clasific."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Define qué tipos de archivos subidos al Chatter irán a cada subcarpeta de la Plantilla DMS embebida seleccionada y qué Categoría se les asignará. Al clasificar, dejará una nota agrupada en el Chatter del registro donde se subió."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Sincronizar subcarpetas de la plantilla"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Pulsa aquí si has añadido subcarpetas nuevas en tu Plantilla DMS embebida para cargarlas automáticamente en esta lista."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Ej: plano, croquis, medicion"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Ej: bc3, plt"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Reg. Mod. Auto-clasific."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Añade aquí otros modelos secundarios de Odoo (por ejemplo <strong>Tareas</strong>, <strong>Pedidos de Venta</strong> o <strong>Facturas</strong>) para que los archivos que se suban a sus Chatters se guarden automáticamente dentro de la carpeta del registro principal al que están unidos."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Reg. Mov. Archiv."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Configura el traspaso o copia de archivos entre almacenamientos (por ejemplo, <strong>CRM ➔ Proyectos ➔ Administración</strong>). Funciona en <strong>Espejo Bidireccional con canales independientes de Entrada y Salida</strong>: una regla intermedia puede recibir archivos de un Origen y enviar a otro Destino sin que sus tablas de mapeo se pisen."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Canal de Entrada: Recibir Archivos desde Regla de Origen"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Canal de Salida: Enviar Archivos hacia Regla de Destino"
+msgstr ""
+
+#: model_terms:ir.actions.act_window,help:ifdw_dms_automation_workflow.action_ifdw_dms_automation
+msgid ""
+"<p class=\"o_view_nocontent_smiling_face\">\n"
+"                Crea tu primera regla de Automatización DMS\n"
+"            </p>\n"
+"            <p>\n"
+"                Conecta tus <strong>Plantillas DMS embebidas</strong> para automatizar el clonado de carpetas, los botones inteligentes Documentos, la auto-clasificación desde el clip del Chatter y el traspaso en espejo entre almacenamientos.\n"
+"            </p>"
+msgstr ""
+
+#: model_terms:ir.actions.act_window,help:ifdw_dms_automation_workflow.action_ifdw_dms_automation
+msgid "Crea tu primera regla de Automatización DMS"
+msgstr ""
+
+#: model_terms:ir.actions.act_window,help:ifdw_dms_automation_workflow.action_ifdw_dms_automation
+msgid "Conecta tus <strong>Plantillas DMS embebidas</strong> para automatizar el clonado de carpetas, los botones inteligentes Documentos, la auto-clasificación desde el clip del Chatter y el traspaso en espejo entre almacenamientos."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.crm_lead_view_form_ifdw_dms
+msgid "Abre la carpeta documental DMS asociada a esta Oportunidad en Almacenamiento Ventas."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.crm_lead_view_form_ifdw_dms
+msgid "Ops. Documentos"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.crm_lead_view_form_ifdw_dms
+msgid "Control Granular de Archivos al Generar Proyectos"
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_order_form_ifdw_dms
+msgid "Abre la carpeta documental DMS vinculada a este Presupuesto / Pedido de Venta."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.edit_project_ifdw_dms
+msgid "Abre la carpeta documental DMS de esta Obra / Proyecto."
+msgstr ""
+
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_task_form2_ifdw_dms
+msgid "Abre la carpeta documental DMS del Proyecto al que pertenece esta Tarea."
+msgstr ""

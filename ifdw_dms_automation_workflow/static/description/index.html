@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document Management System Automation of organization and workflows | Infinity Draw</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto+Slab:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Source Sans 3', 'Montserrat', sans-serif;
+      background-color: #f4f5f7;
+      color: #212529;
+    }
+    .ifdw-nav-tabs .nav-link {
+      color: #4a4a4a !important;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      border-radius: 30px !important;
+      padding: 10px 24px !important;
+      margin: 4px 6px !important;
+      border: 1px solid #eae7e7 !important;
+      background-color: #f8f9fa !important;
+      transition: all 0.25s ease;
+    }
+    .ifdw-nav-tabs .nav-link.active,
+    .ifdw-nav-tabs .nav-item.show .nav-link {
+      color: #ffffff !important;
+      background: linear-gradient(135deg, #ba953f 0%, #a27100 100%) !important;
+      border-color: #ba953f !important;
+      box-shadow: 0 4px 12px rgba(186, 149, 63, 0.35);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container my-4" style="max-width: 1180px; font-family: 'Source Sans 3', 'Montserrat', sans-serif;">
+
+  <!-- BARRA SUPERIOR -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between mb-3 px-1">
+    <div class="d-flex align-items-center my-1">
+      <img src="./assets/Icon-IfDw-DoradoFondoNegroCircular-256px.png"
+           alt="Infinity Draw"
+           style="width: 34px; height: 34px; border-radius: 50%; margin-right: 10px;"/>
+      <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #212529; letter-spacing: 1px;">
+        INFINITY DRAW · ECOSISTEMAS QUE CONVIERTEN
+      </span>
+    </div>
+    <div class="d-flex flex-wrap align-items-center justify-content-end my-1">
+      <div class="text-center"
+           style="background-color: #ba953f !important; color: #ffffff !important; font-size: 0.8rem !important; font-weight: 700 !important; padding: 5px 16px !important; margin: 2px 4px !important; border-radius: 50px !important;">
+        Odoo 18.0
+      </div>
+      <div class="text-center"
+           style="background-color: #017E84 !important; color: #ffffff !important; font-size: 0.8rem !important; font-weight: 600 !important; padding: 5px 16px !important; margin: 2px 4px !important; border-radius: 50px !important;">
+        Community
+      </div>
+      <div class="text-center"
+           style="background-color: #353046 !important; color: #ffc85a !important; font-size: 0.8rem !important; font-weight: 600 !important; padding: 5px 16px !important; margin: 2px 4px !important; border-radius: 50px !important; border: 1px solid #ba953f !important;">
+        OCA DMS Ready
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CAJA INICIAL -->
+  <div class="position-relative mb-5"
+       style="border-radius: 20px; background: linear-gradient(135deg, #0b0c0e 0%, #1a1d24 52%, #2b2f3a 100%); border: 1px solid rgba(186, 149, 63, 0.45); box-shadow: 0px 14px 34px rgba(0, 0, 0, 0.28); padding: 48px 32px; overflow: hidden;">
+
+    <div style="width: 90px; height: 4px; background: linear-gradient(90deg, #ba953f, #ffc85a); margin: 0 auto 24px auto; border-radius: 4px;"></div>
+
+    <!-- Logos corporativos -->
+    <div class="d-flex flex-wrap justify-content-center align-items-center mb-4" style="gap: 28px;">
+      <img src="./assets/Isologo-IfDw-07-500px.webp"
+           alt="Infinity Draw"
+           class="img-fluid"
+           style="max-height: 62px; width: auto;"/>
+      <span style="color: #ba953f; font-size: 26px; font-weight: 300; padding: 0 8px;">×</span>
+      <img src="./assets/brand-ODOO.svg"
+           alt="Odoo"
+           class="img-fluid"
+           style="max-height: 44px; width: auto;"/>
+    </div>
+
+    <p class="text-center text-uppercase mb-2"
+       style="letter-spacing: 3px; color: #ffc85a; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;">
+      ifdw_dms_automation_workflow · v18.0.4.0.0
+    </p>
+
+    <!-- Título -->
+    <h1 class="text-center mx-auto mb-3"
+        style="font-family: 'Roboto Slab', 'Montserrat', serif; color: #ffffff; font-size: 36px; font-weight: 700; line-height: 1.25; max-width: 900px;">
+      Document Management System Automation of organization and workflows
+    </h1>
+
+    <!-- Descripción -->
+    <p class="text-center mx-auto mb-4"
+       style="color: #eae7e7; font-size: 17px; line-height: 1.65; max-width: 860px; font-weight: 400;">
+      Elimina el caos documental y la fricción operativa en tu empresa conectando de forma transparente el
+      <strong style="color: #ffc85a;">Chatter de Odoo</strong> con el motor <strong style="color: #ffc85a;">OCA DMS</strong>.
+      Tus equipos comerciales, técnicos y operarios solo tienen que adjuntar fotos, vídeos, notas de voz, planos CAD/DWG o presupuestos desde el clip
+      <code style="color: #ffe4b3; background-color: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px;">📎</code>
+      de cualquier registro: el módulo clona estructuras de carpetas automáticamente, filtra firmas basura de correo, renombra los archivos con truncado seguro, los clasifica en su subcarpeta exacta y gobierna el traspaso en espejo entre flujos encadenados
+      (<strong style="color: #ffc85a;">CRM ➔ Ventas ➔ Proyectos ➔ Administración</strong>).
+    </p>
+
+    <!-- 3 Cajas principales -->
+    <div class="row g-3 justify-content-center mb-4 mx-auto" style="max-width: 980px;">
+      <div class="col-md-4">
+        <div class="h-100 p-3 text-center"
+             style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.3); border-radius: 12px;">
+          <div style="color: #ffc85a; font-size: 20px; margin-bottom: 6px;"><i class="fa fa-bolt"></i></div>
+          <h6 style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 4px;">
+            Cero Fricción desde el Chatter
+          </h6>
+          <p class="mb-0" style="color: #cccccc; font-size: 13.5px; line-height: 1.45;">
+            Auto-clasificación por MIME/extensión real (JPG, HEIC, MP4, OGG, DWG, DXF, BC3, PDF) y modelos satélite sin salir de la tarea u oportunidad.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="h-100 p-3 text-center"
+             style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.3); border-radius: 12px;">
+          <div style="color: #ffc85a; font-size: 20px; margin-bottom: 6px;"><i class="fa fa-random"></i></div>
+          <h6 style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 4px;">
+            Flujos Encadenados A ➔ B ➔ C
+          </h6>
+          <p class="mb-0" style="color: #cccccc; font-size: 13.5px; line-height: 1.45;">
+            Espejo bidireccional con canales independientes de Entrada y Salida y pestaña <em>Ops. Documentos</em> en CRM para segundos proyectos.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="h-100 p-3 text-center"
+             style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.3); border-radius: 12px;">
+          <div style="color: #ffc85a; font-size: 20px; margin-bottom: 6px;"><i class="fa fa-shield-halved"></i></div>
+          <h6 style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 4px;">
+            Borrado Estanco y Candado DMS
+          </h6>
+          <p class="mb-0" style="color: #cccccc; font-size: 13.5px; line-height: 1.45;">
+            Aislamiento de papelera por almacenamiento físico, respeto absoluto al bloqueo nativo del DMS y trazabilidad completa en Chatter.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos de Contacto -->
+    <div class="d-flex flex-wrap justify-content-center align-items-center mt-3" style="gap: 14px;">
+      <a href="https://infinitydraw.es"
+         target="_blank"
+         style="background: linear-gradient(135deg, #ba953f 0%, #c68b01 100%); color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14.5px; padding: 10px 24px; border-radius: 50px; text-decoration: none; border: 1px solid #ffc85a; box-shadow: 0 4px 14px rgba(186, 149, 63, 0.35);">
+        <i class="fa fa-globe me-2"></i>infinitydraw.es
+      </a>
+      <a href="mailto:contacta@infinitydraw.es"
+         style="background-color: rgba(255, 255, 255, 0.08); color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14.5px; padding: 10px 24px; border-radius: 50px; text-decoration: none; border: 1px solid #ba953f;">
+        <i class="fa fa-envelope me-2" style="color: #ffc85a;"></i>contacta@infinitydraw.es
+      </a>
+      <a href="https://wa.me/34615678617"
+         target="_blank"
+         style="background-color: rgba(255, 255, 255, 0.08); color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14.5px; padding: 10px 24px; border-radius: 50px; text-decoration: none; border: 1px solid #ba953f;">
+        <i class="fa fa-phone me-2" style="color: #ffc85a;"></i>+34 615 678 617
+      </a>
+    </div>
+  </div>
+
+  <!-- CAJA SECUNDARIA CONTENIDO PRINCIPAL -->
+
+  <div class="bg-white mb-5"
+       style="border-radius: 20px; border: 1px solid #eae7e7; box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.08); overflow: hidden;">
+
+    <!-- Navegación por Pestañas -->
+    <div style="background-color: #ffffff; border-bottom: 2px solid #f0eee9; padding: 20px 16px 14px 16px;">
+      <ul class="nav nav-tabs ifdw-nav-tabs justify-content-center border-0" id="ifdwModuleTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="captures-tab" data-bs-toggle="tab" href="#tab-captures" role="tab" aria-controls="tab-captures" aria-selected="true">
+            <i class="fa fa-images me-2"></i>Capturas
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="features-tab" data-bs-toggle="tab" href="#tab-features" role="tab" aria-controls="tab-features" aria-selected="false">
+            <i class="fa fa-star me-2"></i>Características
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#tab-faq" role="tab" aria-controls="tab-faq" aria-selected="false">
+            <i class="fa fa-circle-question me-2"></i>Preguntas Frecuentes
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#tab-others" role="tab" aria-controls="tab-others" aria-selected="false">
+            <i class="fa fa-sliders me-2"></i>Otros
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="license-tab" data-bs-toggle="tab" href="#tab-license" role="tab" aria-controls="tab-license" aria-selected="false">
+            <i class="fa fa-scale-balanced me-2"></i>Licencia
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content p-md-5 p-3" id="ifdwModuleTabContent">
+
+      <!-- PESTAÑA 1: CAPTURAS -->
+      <div class="tab-pane fade show active" id="tab-captures" role="tabpanel" aria-labelledby="captures-tab">
+        <div class="p-3 mb-4 text-center"
+             style="background-color: #fdfaf2; border: 1px solid #ebd7a7; border-left: 5px solid #ba953f; border-radius: 10px;">
+          <p class="mb-0" style="color: #4a4a4a; font-size: 15px;">
+            <i class="fa fa-circle-info me-2" style="color: #ba953f;"></i>
+            <strong>Recorrido por las Vistas Principales:</strong> A continuación se muestran las 4 capturas principales del centro de gobierno en
+            <code>Documentos &gt; Configuración &gt; Organizar &gt; Automatización DMS</code>. Además de estas pantallas, el motor actúa de forma transparente en los formularios, Smart Buttons y Chatters de <strong>CRM, Ventas, Proyectos, Tareas y Explorador DMS</strong>.
+          </p>
+        </div>
+
+        <!-- CAPTURAS 01 y 02 -->
+        <div class="mb-5 p-md-4 p-3" style="background-color: #f8f9fa; border: 1px solid #eae7e7; border-radius: 16px;">
+          <div class="mb-3 text-center">
+            <span style="display: inline-block; background-color: #212529; color: #ffc85a; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 30px; letter-spacing: 1px; margin-bottom: 8px;">
+              MENU PRINCIPAL EN DMS DE ODOO | OCA
+            </span>
+            <h3 style="font-family: 'Roboto Slab', serif; color: #212529; font-size: 26px; font-weight: 700; margin-bottom: 10px;">
+              En este submenu se gestiona el nucleo principal de todas las automatizaciones
+            </h3>
+            <p class="mx-auto mb-0" style="color: #595959; font-size: 16px; line-height: 1.6; max-width: 900px;">
+              Al elegir una <strong>Plantilla DMS embebida</strong>, la regla hereda automáticamente su Almacenamiento físico (<em>Filestore</em>), Modelo, Grupos de acceso y Carpeta Raíz del Molde. Permite configurar el clonado automático por filtro de dominio, vista previa del Smart Button <code>Documentos</code>, <strong>7 formatos de auto-renombrado</strong> (con truncado KISS a 180 caracteres), <strong>filtro anti-firmas de correo</strong> (1 KB a 100 KB) y sincronización de borrado.
+            </p>
+          </div>
+          <div class="text-center mt-3">
+            <div class="d-inline-block p-2 bg-white shadow-sm" style="border-radius: 12px; border: 1px solid #e0e0e0;">
+              <img src="./assets/capture_01.webp" alt="Captura 01" class="img-fluid" style="border-radius: 8px; max-width: 100%; height: auto;"/>
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <div class="d-inline-block p-2 bg-white shadow-sm" style="border-radius: 12px; border: 1px solid #e0e0e0;">
+              <img src="./assets/capture_02.webp" alt="Captura 02" class="img-fluid" style="border-radius: 8px; max-width: 100%; height: auto;"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAPTURA 03 -->
+        <div class="mb-5 p-md-4 p-3" style="background-color: #f8f9fa; border: 1px solid #eae7e7; border-radius: 16px;">
+          <div class="mb-3 text-center">
+            <span style="display: inline-block; background-color: #212529; color: #ffc85a; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 30px; letter-spacing: 1px; margin-bottom: 8px;">
+              PESTAÑAS INTERNAS DEL MODULO 1 Y 2 (MAPEADO Y AUTO-CLASIFICACIÓN)
+            </span>
+            <h3 style="font-family: 'Roboto Slab', serif; color: #212529; font-size: 26px; font-weight: 700; margin-bottom: 10px;">
+              MAPEADO Y AUTO-CLASIFICACIÓN
+            </h3>
+            <p class="mx-auto mb-0" style="color: #595959; font-size: 16px; line-height: 1.6; max-width: 900px;">
+              En la <strong>Pestaña 1</strong> se mapea cada subcarpeta del molde con el tipo de archivo (Fotos, Vídeos/Audios, Planos CAD/BIM/BC3 + PDF con palabras clave, Documentos, Comprimidos o Catch-All) y su Categoría DMS.<br>
+              En la <strong>Pestaña 2 (Reg. Mod. Auto-clasific.)</strong> se mapea el comportamiento de clasificación automática desde modelos secundarios que puedan tener que intervenir en el proceso de trabajo de la empresa. Ejemplo de ellos, es que mapeemos el modelo de "Tareas" si estamos mapeando el modelo de "Proyectos" de manera principal.
+            </p>
+          </div>
+          <div class="text-center mt-3">
+            <div class="d-inline-block p-2 bg-white shadow-sm" style="border-radius: 12px; border: 1px solid #e0e0e0;">
+              <img src="./assets/capture_03.webp" alt="Captura 03" class="img-fluid" style="border-radius: 8px; max-width: 100%; height: auto;"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAPTURA 04 -->
+        <div class="mb-2 p-md-4 p-3" style="background-color: #f8f9fa; border: 1px solid #eae7e7; border-radius: 16px;">
+          <div class="mb-3 text-center">
+            <span style="display: inline-block; background-color: #212529; color: #ffc85a; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 30px; letter-spacing: 1px; margin-bottom: 8px;">
+              PESTAÑAS INTERNAS DEL MODULO 3: ESPEJO BIDIRECCIONAL Y CADENAS A ➔ B ➔ C
+            </span>
+            <h3 style="font-family: 'Roboto Slab', serif; color: #212529; font-size: 26px; font-weight: 700; margin-bottom: 10px;">
+              Sincronización en Espejo Independiente — Canal de Entrada
+            </h3>
+            <p class="mx-auto mb-0" style="color: #595959; font-size: 16px; line-height: 1.6; max-width: 900px;">
+              Al guardar el Canal de Salida en la regla de origen, se sincroniza automáticamente el <strong>Canal de Entrada</strong> en la regla de destino (y viceversa). Al separar internamente los canales de Entrada y Salida, una regla intermedia (ej. <strong>Proyectos</strong>) puede recibir archivos desde <strong>CRM</strong> y a la vez enviarlos hacia <strong>Administración</strong> en flujos encadenados <code>A ➔ B ➔ C</code> sin que sus mapeos se sobrescriban.
+            </p>
+          </div>
+          <div class="text-center mt-3">
+            <div class="d-inline-block p-2 bg-white shadow-sm" style="border-radius: 12px; border: 1px solid #e0e0e0;">
+              <img src="./assets/capture_04.webp" alt="Captura 04" class="img-fluid" style="border-radius: 8px; max-width: 100%; height: auto;"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 2: CARACTERÍSTICAS -->
+      <div class="tab-pane fade" id="tab-features" role="tabpanel" aria-labelledby="features-tab">
+        <div class="text-center mb-4">
+          <h3 style="font-family: 'Roboto Slab', serif; color: #212529; font-size: 28px; font-weight: 700;">
+            Características Principales de Arquitectura
+          </h3>
+          <p style="color: #595959; font-size: 16px;">
+            Diseñado bajo el estándar de ingeniería de <strong>Infinity Draw</strong> para ofrecer máxima resiliencia, trazabilidad y simplicidad operativa.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="h-100 p-4" style="border-radius: 14px; border: 1px solid #eae7e7; background-color: #fcfcfc;">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center justify-content-center me-3"
+                     style="width: 46px; height: 46px; border-radius: 10px; background-color: #212529; color: #ffc85a; font-size: 20px;">
+                  <i class="fa fa-compass-drafting"></i>
+                </div>
+                <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #212529; font-size: 17px;">
+                  Prioridad CAD/BIM y Protección Vectorial (.SVG)
+                </h5>
+              </div>
+              <p class="mb-0" style="color: #595959; font-size: 15px; line-height: 1.6;">
+                Evalúa con máxima prioridad las extensiones técnicas (<code>.dwg</code>, <code>.dxf</code>, <code>.dwf</code>, <code>.ifc</code>, <code>.bc3</code> y planos en <code>.pdf</code> por palabras clave) evitando falsos positivos por MIME (<code>image/vnd.dwg</code>). Protege siempre los archivos <code>.svg</code> frente al filtro anti-firmas.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="h-100 p-4" style="border-radius: 14px; border: 1px solid #eae7e7; background-color: #fcfcfc;">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center justify-content-center me-3"
+                     style="width: 46px; height: 46px; border-radius: 10px; background-color: #212529; color: #ffc85a; font-size: 20px;">
+                  <i class="fa fa-diagram-project"></i>
+                </div>
+                <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #212529; font-size: 17px;">
+                  Pestaña "Ops. Documentos" en CRM (crm.lead)
+                </h5>
+              </div>
+              <p class="mb-0" style="color: #595959; font-size: 15px; line-height: 1.6;">
+                Control granular para segundos proyectos o ampliaciones desde una misma Oportunidad: permite traspasar todos los archivos (<em>Opción A</em>), solo archivos nuevos no enviados a proyectos anteriores (<em>Opción B</em>) o crear carpeta limpia (<em>Opción C</em>), registrando un historial completo de traspasos.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="h-100 p-4" style="border-radius: 14px; border: 1px solid #eae7e7; background-color: #fcfcfc;">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center justify-content-center me-3"
+                     style="width: 46px; height: 46px; border-radius: 10px; background-color: #212529; color: #ffc85a; font-size: 20px;">
+                  <i class="fa fa-lock"></i>
+                </div>
+                <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #212529; font-size: 17px;">
+                  Borrado Estanco por Almacenamiento y Candado DMS
+                </h5>
+              </div>
+              <p class="mb-0" style="color: #595959; font-size: 15px; line-height: 1.6;">
+                Eliminar un adjunto desde el Chatter del CRM solo lo borra del Almacenamiento de CRM, manteniendo intactas las copias ya traspasadas al Almacenamiento de Proyectos. Cualquier archivo con candado activo (<code>Bloquear 🔒</code>) en el DMS queda blindado frente a borrados.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="h-100 p-4" style="border-radius: 14px; border: 1px solid #eae7e7; background-color: #fcfcfc;">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center justify-content-center me-3"
+                     style="width: 46px; height: 46px; border-radius: 10px; background-color: #212529; color: #ffc85a; font-size: 20px;">
+                  <i class="fa fa-signature"></i>
+                </div>
+                <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #212529; font-size: 17px;">
+                  7 Formatos de Auto-Renombrado y Truncado KISS (180 chars)
+                </h5>
+              </div>
+              <p class="mb-0" style="color: #595959; font-size: 15px; line-height: 1.6;">
+                Formatos configurables con fecha/hora, tarea/origen, usuario, numeración secuencial de 3 dígitos (<code>[001]-[NombreOriginal]</code>) o nombre original, con truncado seguro a <strong>180 caracteres</strong> preservando la extensión para evitar desbordamientos de 255 bytes en Linux y PostgreSQL.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="h-100 p-4" style="border-radius: 14px; border: 1px solid #eae7e7; background-color: #fcfcfc;">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center justify-content-center me-3"
+                     style="width: 46px; height: 46px; border-radius: 10px; background-color: #212529; color: #ffc85a; font-size: 20px;">
+                  <i class="fa fa-folder-tree"></i>
+                </div>
+                <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #212529; font-size: 17px;">
+                  Vista Jerárquica Limpia (Sin Duplicados en Árbol DMS)
+                </h5>
+              </div>
+              <p class="mb-0" style="color: #595959; font-size: 15px; line-height: 1.6;">
+                Activa el operador jerárquico <code>child_of</code> únicamente en <code>Documentos &gt; Archivos</code> y en los Smart Buttons <code>Documentos</code>, manteniendo el explorador en árbol <code>Documentos &gt; Documentos</code> completamente limpio y sin archivos duplicados en la raíz.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="h-100 p-4" style="border-radius: 14px; border: 1px solid #eae7e7; background-color: #fcfcfc;">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center justify-content-center me-3"
+                     style="width: 46px; height: 46px; border-radius: 10px; background-color: #212529; color: #ffc85a; font-size: 20px;">
+                  <i class="fa fa-comments"></i>
+                </div>
+                <h5 class="mb-0" style="font-family: 'Montserrat', sans-serif; font-weight: 700; color: #212529; font-size: 17px;">
+                  Notas Agrupadas de Auditoría en el Chatter
+                </h5>
+              </div>
+              <p class="mb-0" style="color: #595959; font-size: 15px; line-height: 1.6;">
+                Publica una única nota interna agrupada por subida detallando usuario, nombre original, nuevo nombre DMS y subcarpeta de destino, ignorando automáticamente los PDFs autogenerados por informes de Odoo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 3: PREGUNTAS FRECUENTES -->
+      <div class="tab-pane fade" id="tab-faq" role="tabpanel" aria-labelledby="faq-tab">
+        <div class="text-center mb-4">
+          <h3 style="font-family: 'Roboto Slab', serif; color: #212529; font-size: 28px; font-weight: 700;">
+            Preguntas Frecuentes (FAQs)
+          </h3>
+          <p style="color: #595959; font-size: 16px;">
+            Respuestas directas sobre la operativa diaria y el comportamiento técnico del módulo.
+          </p>
+        </div>
+
+        <div class="accordion" id="ifdwFaqAccordion">
+          <div class="mb-3" style="border: 1px solid #eae7e7; border-radius: 12px; overflow: hidden;">
+            <div class="p-3" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true"
+                 style="cursor: pointer; background-color: #f8f9fa; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; color: #212529;">
+              <i class="fa fa-circle-question me-2" style="color: #ba953f;"></i>
+              1. ¿Necesitan los operarios o comerciales entrar en la aplicación Documentos para subir archivos?
+            </div>
+            <div id="faqCollapse1" class="collapse show" data-bs-parent="#ifdwFaqAccordion">
+              <div class="p-3 bg-white" style="color: #595959; font-size: 15.5px; line-height: 1.6;">
+                <strong>No.</strong> Toda la operativa está pensada para que trabajen exclusivamente desde el icono del clip (<code>📎</code>) del Chatter en Oportunidades, Presupuestos, Proyectos o Tareas (desde móvil o PC). El módulo intercepta el adjunto, crea la carpeta si aún no existía, lo renombra y lo archiva en su subcarpeta exacta.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3" style="border: 1px solid #eae7e7; border-radius: 12px; overflow: hidden;">
+            <div class="p-3 collapsed" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false"
+                 style="cursor: pointer; background-color: #f8f9fa; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; color: #212529;">
+              <i class="fa fa-circle-question me-2" style="color: #ba953f;"></i>
+              2. ¿Qué ocurre si elimino un archivo desde el Chatter del CRM cuando ya se había copiado al Proyecto?
+            </div>
+            <div id="faqCollapse2" class="collapse" data-bs-parent="#ifdwFaqAccordion">
+              <div class="p-3 bg-white" style="color: #595959; font-size: 15.5px; line-height: 1.6;">
+                El borrado es <strong>100% estanco por almacenamiento</strong>. Al borrar un adjunto en el Chatter del CRM, solo se elimina su archivo vinculado en el almacenamiento de CRM/Ventas; la copia que viajó al almacenamiento de Proyectos permanece intacta. Además, cualquier archivo bloqueado con candado (<code>🔒</code>) en el DMS está protegido frente a borrados.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3" style="border: 1px solid #eae7e7; border-radius: 12px; overflow: hidden;">
+            <div class="p-3 collapsed" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false"
+                 style="cursor: pointer; background-color: #f8f9fa; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; color: #212529;">
+              <i class="fa fa-circle-question me-2" style="color: #ba953f;"></i>
+              3. ¿Cómo distingue el módulo un PDF de un plano frente a un PDF de un presupuesto o factura?
+            </div>
+            <div id="faqCollapse3" class="collapse" data-bs-parent="#ifdwFaqAccordion">
+              <div class="p-3 bg-white" style="color: #595959; font-size: 15.5px; line-height: 1.6;">
+                En la fila de <em>Planos CAD/BIM/Mediciones</em> de la Pestaña 1 puedes indicar palabras clave separadas por comas (ej. <code>plano, croquis, medicion, licencia</code>). Si un archivo <code>.pdf</code> contiene alguna de esas palabras en su nombre, se clasifica con prioridad en la subcarpeta de Planos; el resto de PDFs van a Documentos Ofimáticos.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3" style="border: 1px solid #eae7e7; border-radius: 12px; overflow: hidden;">
+            <div class="p-3 collapsed" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false"
+                 style="cursor: pointer; background-color: #f8f9fa; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; color: #212529;">
+              <i class="fa fa-circle-question me-2" style="color: #ba953f;"></i>
+              4. ¿Cómo funciona la configuración en Espejo para flujos encadenados (CRM ➔ Proyectos ➔ Administración)?
+            </div>
+            <div id="faqCollapse4" class="collapse" data-bs-parent="#ifdwFaqAccordion">
+              <div class="p-3 bg-white" style="color: #595959; font-size: 15.5px; line-height: 1.6;">
+                La Pestaña 3 mantiene separados en base de datos el <strong>Canal de Entrada</strong> (de quién recibo) y el <strong>Canal de Salida</strong> (a quién envío). De este modo, una regla intermedia como Proyectos conserva simultáneamente su mapeo de entrada desde CRM y su mapeo de salida hacia Administración sin colisiones.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 4: OTROS -->
+      <div class="tab-pane fade" id="tab-others" role="tabpanel" aria-labelledby="others-tab">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="p-4 h-100" style="background-color: #f8f9fa; border: 1px solid #eae7e7; border-radius: 14px;">
+              <h5 style="font-family: 'Roboto Slab', serif; font-weight: 700; color: #212529; margin-bottom: 16px;">
+                <i class="fa fa-cubes me-2" style="color: #ba953f;"></i>Dependencias Técnicas Oficiales
+              </h5>
+              <p style="color: #595959; font-size: 15px;">
+                Construido siguiendo los estándares de <strong>Odoo 18 Community</strong> y apoyado sobre los módulos oficiales de la <strong>OCA</strong>:
+              </p>
+              <ul style="color: #4a4a4a; font-size: 15px; line-height: 1.8;">
+                <li><code>base</code>, <code>mail</code> (Núcleo y Chatter de Odoo 18)</li>
+                <li><code>crm</code>, <code>sale_management</code>, <code>project</code>, <code>sale_project</code></li>
+                <li><code>dms</code> (OCA Document Management System)</li>
+                <li><code>dms_field</code> (OCA Embedded DMS Templates)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-4 h-100" style="background-color: #f8f9fa; border: 1px solid #eae7e7; border-radius: 14px;">
+              <h5 style="font-family: 'Roboto Slab', serif; font-weight: 700; color: #212529; margin-bottom: 16px;">
+                <i class="fa fa-earth-europe me-2" style="color: #ba953f;"></i>Internacionalización y Recomendaciones DevOps
+              </h5>
+              <ul style="color: #4a4a4a; font-size: 15px; line-height: 1.8;">
+                <li><strong>Idiomas incluidos (<code>i18n/</code>):</strong> Español (nativo) e Inglés completo (<code>en.po</code> + plantilla <code>.pot</code> con las 176 cadenas del módulo).</li>
+                <li><strong>Documentación OCA (<code>readme/</code>):</strong> Incluye <code>DESCRIPTION.md</code>, <code>CONFIGURE.md</code>, <code>CONTRIBUTORS.md</code> y <code>ROADMAP.md</code>.</li>
+                <li><strong>Almacenamiento y Proxy:</strong> Se recomienda usar almacenamientos DMS de tipo <em>Filestore</em> y configurar <code>client_max_body_size 100M;</code> en Nginx para vídeos y planos pesados.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 5: LICENCIA -->
+      <div class="tab-pane fade" id="tab-license" role="tabpanel" aria-labelledby="license-tab">
+        <div class="p-4 text-center mx-auto"
+             style="max-width: 820px; background-color: #f8f9fa; border: 1px solid #eae7e7; border-radius: 16px;">
+          <img src="./assets/Icon-IfDw-DoradoFondoNegroCircular-256px.png"
+               alt="Infinity Draw"
+               style="width: 64px; height: 64px; border-radius: 50%; margin-bottom: 16px;"/>
+          <h4 style="font-family: 'Roboto Slab', serif; font-weight: 700; color: #212529;">
+            GNU Lesser General Public License v3.0 or later (LGPL-3.0+)
+          </h4>
+          <p style="color: #595959; font-size: 15.5px; line-height: 1.65; margin-top: 12px;">
+            Copyright © 2026 <strong>Infinity Draw</strong> (<a href="https://infinitydraw.es" target="_blank" style="color: #a27100; font-weight: 600;">https://infinitydraw.es</a>). Distribuido bajo los términos de la licencia <strong>LGPL-3.0 or later</strong> en consonancia con los estándares oficiales de la comunidad Odoo y la OCA.
+          </p>
+          <div class="d-inline-block px-4 py-2 mt-2"
+               style="background-color: #212529; color: #ffc85a; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600;">
+            Módulo: ifdw_dms_automation_workflow · Versión: 18.0.4.0.0 · Licencia: LGPL-3
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ÚLTIMA CAJA: OTROS SERVICIOS DE INFINITY DRAW + RR.SS. -->
+  <div class="position-relative mb-4"
+       style="border-radius: 20px; background: linear-gradient(135deg, #0b0c0e 0%, #1a1d24 52%, #2b2f3a 100%); border: 1px solid rgba(186, 149, 63, 0.45); box-shadow: 0px 14px 34px rgba(0, 0, 0, 0.28); padding: 48px 32px; overflow: hidden;">
+
+    <div class="text-center mb-4">
+      <img src="./assets/Isologo-IfDw-07-500px.webp"
+           alt="Infinity Draw"
+           class="img-fluid mb-3"
+           style="max-height: 58px; width: auto;"/>
+      <p class="text-uppercase mb-1"
+         style="letter-spacing: 3px; color: #ffc85a; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;">
+        SI PUEDES IMAGINARLO, PUEDES CREARLO · CREAMOS ECOSISTEMAS QUE CONVIERTEN
+      </p>
+      <h2 style="font-family: 'Roboto Slab', 'Montserrat', serif; color: #ffffff; font-size: 32px; font-weight: 700;">
+        Otros Servicios de Infinity Draw
+      </h2>
+      <p class="mx-auto mb-0" style="color: #cccccc; font-size: 16px; max-width: 780px;">
+        Transformamos ideas y negocios en estructuras digitales sostenibles, automatizadas y rentables. El software se adapta a tu empresa, nunca al revés.
+      </p>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100 p-4" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.35); border-radius: 14px;">
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center me-3"
+                 style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ba953f, #a27100); color: #ffffff; font-size: 20px;">
+              <i class="fa fa-gears"></i>
+            </div>
+            <h5 class="mb-0" style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px;">
+              Implantación y Desarrollo Odoo ERP
+            </h5>
+          </div>
+          <p class="mb-0" style="color: #cccccc; font-size: 14.5px; line-height: 1.55;">
+            Consultoría de negocio, despliegue de Odoo Community, creación de módulos a medida, migración de sistemas legacy y adaptación exacta a tus flujos de trabajo.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100 p-4" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.35); border-radius: 14px;">
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center me-3"
+                 style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ba953f, #a27100); color: #ffffff; font-size: 20px;">
+              <i class="fa fa-server"></i>
+            </div>
+            <h5 class="mb-0" style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px;">
+              Arquitectura de Sistemas y DevOps
+            </h5>
+          </div>
+          <p class="mb-0" style="color: #cccccc; font-size: 14.5px; line-height: 1.55;">
+            Diseño y administración de servidores Cloud y On-Premise bajo filosofía <em>Zero Trust</em>, proxys inversos, contenedores, copias de seguridad inmutables y alta disponibilidad.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100 p-4" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.35); border-radius: 14px;">
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center me-3"
+                 style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ba953f, #a27100); color: #ffffff; font-size: 20px;">
+              <i class="fa fa-robot"></i>
+            </div>
+            <h5 class="mb-0" style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px;">
+              Automatización de Procesos e IA
+            </h5>
+          </div>
+          <p class="mb-0" style="color: #cccccc; font-size: 14.5px; line-height: 1.55;">
+            Orquestación de flujos empresariales con n8n, chatbots multicanal e integraciones avanzadas con WhatsApp y APIs pensado para el mundo real de la empresa, no para un laboratorio de investigación.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100 p-4" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.35); border-radius: 14px;">
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center me-3"
+                 style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ba953f, #a27100); color: #ffffff; font-size: 20px;">
+              <i class="fa fa-laptop-code"></i>
+            </div>
+            <h5 class="mb-0" style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px;">
+              Desarrollo Web y E-Commerce CRO
+            </h5>
+          </div>
+          <p class="mb-0" style="color: #cccccc; font-size: 14.5px; line-height: 1.55;">
+            Creación de páginas web corporativas, landing pages y tiendas online optimizadas para la conversión en menos de 3 clics y conectadas en tiempo real a tu CRM.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100 p-4" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.35); border-radius: 14px;">
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center me-3"
+                 style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ba953f, #a27100); color: #ffffff; font-size: 20px;">
+              <i class="fa fa-pen-nib"></i>
+            </div>
+            <h5 class="mb-0" style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px;">
+              Branding, Diseño e Identidad Visual
+            </h5>
+          </div>
+          <p class="mb-0" style="color: #cccccc; font-size: 14.5px; line-height: 1.55;">
+            Construcción integral de identidad corporativa, manuales de marca, diseño gráfico publicitario, edición de vídeo profesional y fotografía de producto.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="h-100 p-4" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(186, 149, 63, 0.35); border-radius: 14px;">
+          <div class="d-flex align-items-center mb-3">
+            <div class="d-flex align-items-center justify-content-center me-3"
+                 style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #ba953f, #a27100); color: #ffffff; font-size: 20px;">
+              <i class="fa fa-chart-line"></i>
+            </div>
+            <h5 class="mb-0" style="color: #ffffff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px;">
+              Marketing Digital, SEO/SEM y RR.SS.
+            </h5>
+          </div>
+          <p class="mb-0" style="color: #cccccc; font-size: 14.5px; line-height: 1.55;">
+            Estrategias de captación B2B/B2C basadas en datos reales, posicionamiento orgánico, campañas en Google/Meta Ads, neuromarketing, copywriting y gestión de redes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(186, 149, 63, 0.5), transparent); margin: 28px 0;"></div>
+
+    <!-- Iconos Oficiales de RR.SS. de /assets/ -->
+    <div class="text-center">
+      <h5 style="font-family: 'Montserrat', sans-serif; color: #ffc85a; font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px;">
+        Síguenos y Conecta con Infinity Draw
+      </h5>
+
+      <div class="d-flex flex-wrap justify-content-center align-items-center mb-4" style="gap: 18px;">
+        <a href="https://www.instagram.com/inffinitydraw/" target="_blank" title="Instagram Infinity Draw" style="text-decoration: none;">
+          <img src="./assets/InstagramDorado_2-256px-8bit.png" alt="Instagram" style="width: 48px; height: 48px; border-radius: 12px;"/>
+        </a>
+        <a href="https://www.facebook.com/InfffinityDraw" target="_blank" title="Facebook Infinity Draw" style="text-decoration: none;">
+          <img src="./assets/FacebookDorado_2-256px-8bit.png" alt="Facebook" style="width: 48px; height: 48px; border-radius: 12px;"/>
+        </a>
+        <a href="https://www.tiktok.com/@infinity.draw" target="_blank" title="TikTok Infinity Draw" style="text-decoration: none;">
+          <img src="./assets/TIkTokDorado_2-256px-8bit.png" alt="TikTok" style="width: 48px; height: 48px; border-radius: 12px;"/>
+        </a>
+        <a href="https://www.youtube.com/@inffinitydraw" target="_blank" title="YouTube Infinity Draw" style="text-decoration: none;">
+          <img src="./assets/YouTubeDorado_2-256px-8bit.png" alt="YouTube" style="width: 48px; height: 48px; border-radius: 12px;"/>
+        </a>
+        <a href="https://x.com/InffinityDraw" target="_blank" title="X (Twitter) Infinity Draw" style="text-decoration: none;">
+          <img src="./assets/XDorado_2-256px-8bit.png" alt="X" style="width: 48px; height: 48px; border-radius: 12px;"/>
+        </a>
+        <a href="https://wa.me/34615678617" target="_blank" title="WhatsApp Infinity Draw" style="text-decoration: none;">
+          <img src="./assets/WhatsAppDorado_2-256px-8bit.png" alt="WhatsApp" style="width: 48px; height: 48px; border-radius: 12px;"/>
+        </a>
+      </div>
+
+      <p class="mb-0" style="color: #999999; font-size: 13.5px;">
+        © 2026 <strong style="color: #ffffff;">Infinity Draw</strong> ·
+        <a href="https://infinitydraw.es" target="_blank" style="color: #ffc85a; text-decoration: none;">infinitydraw.es</a> ·
+        <a href="mailto:contacta@infinitydraw.es" style="color: #ffc85a; text-decoration: none;">contacta@infinitydraw.es</a> ·
+        <span style="color: #cccccc;">+34 615 678 617</span>
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
