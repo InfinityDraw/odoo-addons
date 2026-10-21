@@ -1,0 +1,253 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ifdw_pos_sales_order_create_modify
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-15 15:30+0000\n"
+"PO-Revision-Date: 2025-09-15 15:30+0000\n"
+"Last-Translator: Fernan Nerd <fernando@infinitydraw.es> \n"
+"Language-Team: Spanish (https://infinitydraw.es)\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,help:ifdw_pos_sales_order_create_modify.field_pos_config__sale_order_required_signature
+msgid "Allow print receipt when create quotation/order"
+msgstr "Permitir imprimir recibo al crear presupuesto/pedido"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,help:ifdw_pos_sales_order_create_modify.field_pos_config__update_sale_order
+msgid ""
+"Allow you settle sale order ,\n"
+" update quantity of line \n"
+" or add new line to sale order in POS Screen"
+msgstr ""
+"Permite finalizar el pedido de venta,\n"
+" actualizar la cantidad de una línea\n"
+" o añadir una nueva línea al pedido de venta en la pantalla del TPV"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Are you want to print sale order %s report?"
+msgstr "¿Quiere imprimir el informe de la orden de venta %s?"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_pos_config__sale_order_auto_confirm
+msgid "Auto Confirm"
+msgstr "Confirmar automáticamente"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_pos_config__sale_order_auto_delivery
+msgid "Auto Delivery"
+msgstr "Entrega automática"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Auto Invoice"
+msgstr "Factura automática"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_pos_config__sale_order_auto_invoice
+msgid "Auto Paid"
+msgstr "Pago automático"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Automatic Actions"
+msgstr "Acciones automáticas"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/control_buttons.xml:0
+msgid "Create SO"
+msgstr "Crear PdV"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_pos_config__create_sale_order
+msgid "Create Sale Order"
+msgstr "Crear Pedido de venta"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/control_buttons.xml:0
+msgid "Create Sale/Reservation Order"
+msgstr "Crear Orden de venta/reserva"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/ControlButtons.js:0
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Error"
+msgstr "Error"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/ControlButtons.js:0
+msgid "No SO Order Related To Update !"
+msgstr "¡No hay ningún Pedido de Venta relacionado para actualizar!"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_sale_order_line__note
+msgid "Note"
+msgstr "Nota"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_sale_order__payment_partial_amount
+msgid "POS Partial Payment Amount"
+msgstr "Importe de pago parcial"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_sale_order__payment_partial_method_id
+msgid "POS Payment Method"
+msgstr "Método de pago"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Partial Amount"
+msgstr "Cantidad parcial"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Partial Payment"
+msgstr "Pago parcial"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Partial Payment Method"
+msgstr "Forma de pago parcial"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Partial amount required bigger than 0"
+msgstr "La cantidad parcial debe ser mayor que 0"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Partial amount required number"
+msgstr "Número de importe parcial requerido"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Please full fill information of order"
+msgstr "Por favor llena la información del pedido"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid ""
+"Please select auto confirm and auto delivery to be able to auto invoice"
+msgstr ""
+"Seleccione Auto Confirmar y Entrega Automática para poder facturar "
+"automáticamente"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Please select auto confirm to be able to auto delivery"
+msgstr "Seleccione Auto Confirmar para poder entrega automática"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model,name:ifdw_pos_sales_order_create_modify.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configuración del punto de venta"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+msgid "Pricelist"
+msgstr "Lista de precios"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/ControlButtons.js:0
+msgid "Required set customer for create sale order"
+msgstr "Se requiere seleccionar un cliente para crear el pedido de venta"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_pos_config__sale_order_required_signature
+msgid "SO Required Signature"
+msgstr "La orden de venta, requiere firma"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/SaleOrderPopup.js:0
+msgid "Sale Order"
+msgstr "Orden de venta"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/ControlButtons.js:0
+msgid "Sale Order state is not Quotation or Quotation sent"
+msgstr "El estado del pedido de venta no es Presupuesto ni Presupuesto Enviado"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model,name:ifdw_pos_sales_order_create_modify.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de ventas"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model,name:ifdw_pos_sales_order_create_modify.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de pedido de ventas"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/control_buttons.xml:0
+msgid "Update Order"
+msgstr "Actualizar Orden"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/SaleOrderPopup.xml:0
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/xml/control_buttons.xml:0
+msgid "Update SO"
+msgstr "Actualizar OdV"
+
+#. module: ifdw_pos_sales_order_create_modify
+#: model:ir.model.fields,field_description:ifdw_pos_sales_order_create_modify.field_pos_config__update_sale_order
+msgid "Update sale order"
+msgstr "Actualización de Orden de venta"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/ControlButtons.js:0
+msgid "Warning"
+msgstr "Advertencia"
+
+#. module: ifdw_pos_sales_order_create_modify
+#. odoo-javascript
+#: code:addons/ifdw_pos_sales_order_create_modify/static/src/js/ControlButtons.js:0
+msgid "Your shopping cart is empty !"
+msgstr "¡Tu carrito de compras está vacío!"
