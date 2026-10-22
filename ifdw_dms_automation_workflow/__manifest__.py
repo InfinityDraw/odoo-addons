@@ -35,8 +35,6 @@ Módulo desarrollado por Infinity Draw para gobernar desde interfaz gráfica tod
         'sale_management',
         'project',
         'sale_project',
-        'dms',
-        'dms_field',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -46,6 +44,7 @@ Módulo desarrollado por Infinity Draw para gobernar desde interfaz gráfica tod
     'images': [
         'static/description/banner.png',
     ],
+    'pre_init_hook': 'pre_init_check_oca_dms',
     'installable': True,
     'application': False,
     'auto_install': False,

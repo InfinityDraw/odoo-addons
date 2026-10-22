@@ -809,3 +809,9 @@ msgstr "Opens the DMS document folder for this Work / Project."
 #: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_task_form2_ifdw_dms
 msgid "Abre la carpeta documental DMS del Proyecto al que pertenece esta Tarea."
 msgstr "Opens the DMS document folder of the Project to which this Task belongs."
+
+#. module: ifdw_dms_automation_workflow
+#: code:addons/ifdw_dms_automation_workflow/__init__.py:0
+#, python-format
+msgid "Requisito previo no encontrado: Para instalar 'ifdw_dms_automation_workflow' debes instalar primero los módulos oficiales de la OCA: %s."
+msgstr "Missing prerequisite: To install 'ifdw_dms_automation_workflow', you must first install the official OCA modules: %s."
