@@ -4,7 +4,7 @@
 
 {
     'name': 'Automatización flujos y archivos del DMS',
-    'version': '18.0.4.0.0',
+    'version': '18.0.7.0.0',
     'category': 'Document Management',
     'summary': 'Automatización DMS configurable con soporte A->B->C, borrado estanco, candado DMS y trazabilidad en Chatter',
     'description': """
