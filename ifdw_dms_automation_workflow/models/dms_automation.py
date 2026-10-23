@@ -803,7 +803,7 @@ class IfdwDmsAutomation(models.Model):
         trace_models = dst_rule.trace_model_ids or src_rule.out_trace_model_ids or self._compute_default_trace_models(src_rule, dst_rule)
 
         origin_record, bridge_order = dst_rule._resolve_chain_records_for_movement(dest_record)
-        if not origin_record or not hasattr(origin_record, 'dms_directory_id') or not origin_record.dms_directory_id:
+        if not origin_record or not hasattr(origin_record, '_get_effective_dms_directory'):
             return False
 
         crm_policy = 'global_rule'
@@ -812,8 +812,8 @@ class IfdwDmsAutomation(models.Model):
         if crm_policy == 'no_transfer':
             return False
 
-        origin_root_dir = origin_record.dms_directory_id.sudo()
-        if not origin_root_dir.exists() or origin_root_dir == dest_root_dir:
+        origin_root_dir = origin_record._get_effective_dms_directory(rule=src_rule).sudo()
+        if not origin_root_dir or not origin_root_dir.exists() or origin_root_dir == dest_root_dir:
             return False
 
         DmsFile = self.env['dms.file'].sudo()
@@ -909,7 +909,8 @@ class IfdwDmsAutomation(models.Model):
 
         if after_action == 'move_delete_dir' and not has_locked_files_in_origin:
             try:
-                origin_record.sudo().write({'dms_directory_id': False})
+                if 'dms_directory_id' in origin_record._fields and not origin_record._fields['dms_directory_id'].compute:
+                    origin_record.sudo().write({'dms_directory_id': False})
                 origin_root_dir.with_context(skip_ifdw_attachment_sync=True).unlink()
             except Exception as e:
                 _logger.warning("No se pudo eliminar carpeta de origen %s tras mover: %s", origin_root_dir.name, e)
