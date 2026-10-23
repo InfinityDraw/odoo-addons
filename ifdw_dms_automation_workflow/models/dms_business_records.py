@@ -382,6 +382,7 @@ class IrAttachmentDmsRouter(models.Model):
                 ('automation_id.active', '=', True),
             ], order='sequence, id')
 
+            matched_satellite = False
             for sat in sat_lines:
                 field_name = sat.link_field_id.name
                 if not field_name or not hasattr(record, field_name):
@@ -404,7 +405,14 @@ class IrAttachmentDmsRouter(models.Model):
                 )
                 if isinstance(info, dict):
                     grouped_upload_logs[(att.res_model, att.res_id)].append(info)
+                matched_satellite = True
                 break
+
+            if not matched_satellite:
+                # Red de seguridad Global (Ajustes > Documentos): si está activa, clasifica en las 10 carpetas por extensión
+                global_info = self.env['ifdw.dms.general.folder.line'].sudo()._classify_attachment_global(att, record)
+                if isinstance(global_info, dict):
+                    grouped_upload_logs[(att.res_model, att.res_id)].append(global_info)
 
         for (res_model, res_id), info_list in grouped_upload_logs.items():
             self._post_chatter_upload_log(res_model, res_id, info_list)
@@ -488,6 +496,11 @@ class IrAttachmentDmsRouter(models.Model):
 
                     active_rules = direct_rules | sat_rules
                     allowed_storage_ids = active_rules.mapped('storage_id').ids
+                    ICP = self.env['ir.config_parameter'].sudo()
+                    if ICP.get_param('ifdw_dms.enable_global_chatter_routing') == 'True':
+                        gen_st_id = int(ICP.get_param('ifdw_dms.general_storage_id') or 0)
+                        if gen_st_id:
+                            allowed_storage_ids.append(gen_st_id)
                     if not allowed_storage_ids:
                         continue
 

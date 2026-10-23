@@ -5,3 +5,4 @@
 from . import dms_automation
 from . import dms_automation_lines
 from . import dms_business_records
+from . import dms_general_settings
