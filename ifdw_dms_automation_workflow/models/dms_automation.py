@@ -76,6 +76,14 @@ class IfdwDmsAutomation(models.Model):
         store=True,
         help='Almacenamiento físico (Filestore) heredado automáticamente de la Plantilla DMS embebida seleccionada (Solo lectura).',
     )
+    parent_directory_id = fields.Many2one(
+        'dms.directory',
+        string='Carpeta padre de destino',
+        related='template_id.parent_directory_id',
+        readonly=True,
+        store=True,
+        help='Carpeta maestra donde se crearán las carpetas clonadas de cada registro (Heredada de la Plantilla DMS embebida).',
+    )
     model_id = fields.Many2one(
         'ir.model',
         string='Modelo de plantilla',
@@ -100,9 +108,11 @@ class IfdwDmsAutomation(models.Model):
         'dms.directory',
         string='Carpeta Raíz del Molde',
         compute='_compute_template_info',
-        help='Carpeta raíz en Documentos > Carpetas que actúa como molde oficial de esta Plantilla DMS embebida (Solo lectura).',
+        store=True,
+        readonly=False,
+        domain="[('storage_id', '=', storage_id)]",
+        help='Carpeta en Documentos > Carpetas que actúa como molde oficial de esta Plantilla DMS embebida. Se autocompleta sola, pero puedes cambiarla manualmente.',
     )
-
     auto_clone_on_create = fields.Boolean(
         string='Clonar plantilla automáticamente con cada nuevo registro',
         default=True,
@@ -343,13 +353,11 @@ class IfdwDmsAutomation(models.Model):
         Directory = self.env['dms.directory'].sudo()
         found = Directory.search([
             ('storage_id', '=', template.storage_id.id),
-            ('is_root_directory', '=', True),
             ('name', '=', template.name),
         ], limit=1)
         if not found:
             found = Directory.search([
                 ('storage_id', '=', template.storage_id.id),
-                ('is_root_directory', '=', True),
                 ('name', 'ilike', template.name),
                 ('name', 'not ilike', 'ejemplo'),
             ], limit=1)
@@ -658,38 +666,71 @@ class IfdwDmsAutomation(models.Model):
 
         target_name = self._format_cloned_root_name(record)
         storage = self.storage_id.sudo()
-        access_group_ids = self.group_ids.sudo().ids
+        parent_dir = self.parent_directory_id.sudo() if self.parent_directory_id else self.template_id.sudo().parent_directory_id
 
-        existing = Directory.search([
+        # Primero busco si ya existe la carpeta (dentro de Carpeta Padre si la hay, o en la raíz si no la hay)
+        search_domain = [
             ('storage_id', '=', storage.id),
-            ('is_root_directory', '=', True),
             ('name', '=', target_name),
             ('id', '!=', root_molde.id),
-        ], limit=1)
+        ]
+        if parent_dir:
+            search_domain.append(('parent_id', '=', parent_dir.id))
+        else:
+            search_domain.append(('is_root_directory', '=', True))
+
+        existing = Directory.search(search_domain, limit=1)
         if existing:
             return existing
 
-        new_root = Directory.create({
+        # Segundo preparar valores de la carpeta principal del registro
+        root_vals = {
             'name': target_name,
-            'is_root_directory': True,
             'storage_id': storage.id,
-            'group_ids': [(6, 0, access_group_ids)],
             'category_id': root_molde.category_id.id if root_molde.category_id else False,
             'tag_ids': [(6, 0, root_molde.tag_ids.ids)],
-        })
+        }
+        if 'res_model' in Directory._fields:
+            root_vals['res_model'] = record._name
+        if 'res_id' in Directory._fields:
+            root_vals['res_id'] = record.id
 
+        if parent_dir:
+            # Nace DENTRO de la Carpeta Padre (Proyectos, Ventas, Administración) heredando sus permisos
+            root_vals.update({
+                'is_root_directory': False,
+                'parent_id': parent_dir.id,
+                'inherit_group_ids': True,
+            })
+        else:
+            # Solo si la plantilla NO tiene Carpeta Padre, nace en la raíz con los grupos de la plantilla
+            access_group_ids = self.group_ids.sudo().ids
+            root_vals.update({
+                'is_root_directory': True,
+                'group_ids': [(6, 0, access_group_ids)],
+            })
+
+        new_root = Directory.create(root_vals)
+
+        # Tercero clonar las subcarpetas respetando la herencia limpia (o excepciones si alguna no hereda)
         for sub in root_molde.child_directory_ids.sorted('name'):
-            Directory.create({
+            sub_inherit = sub.inherit_group_ids if 'inherit_group_ids' in Directory._fields else True
+            sub_vals = {
                 'name': sub.name,
                 'is_root_directory': False,
                 'parent_id': new_root.id,
                 'storage_id': storage.id,
-                'inherit_group_ids': True,
+                'inherit_group_ids': sub_inherit,
                 'category_id': sub.category_id.id if sub.category_id else False,
                 'tag_ids': [(6, 0, sub.tag_ids.ids)],
-            })
+            }
+            if not sub_inherit and sub.group_ids:
+                sub_vals['group_ids'] = [(6, 0, sub.group_ids.ids)]
+
+            Directory.create(sub_vals)
 
         return new_root
+
 
     def _get_effective_dest_rule_and_source_rule(self):
         self.ensure_one()
