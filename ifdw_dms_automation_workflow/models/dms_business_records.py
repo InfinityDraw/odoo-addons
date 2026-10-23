@@ -75,13 +75,22 @@ class IfdwDmsCrmTransferLog(models.Model):
     crm_policy_used = fields.Char(string='Filtro de Oportunidad', readonly=True)
 
 
-class DmsAutomationRecordMixin(models.AbstractModel):
-    _name = 'ifdw.dms.record.mixin'
-    _description = 'Mixin de Conexión con Reglas de Automatización DMS'
+class MailThreadDmsUniversal(models.AbstractModel):
+    _inherit = 'mail.thread'
 
-    dms_directory_id = fields.Many2one('dms.directory', string='Carpeta DMS', copy=False, ondelete='set null')
-    dms_file_count = fields.Integer(string='Documentos', compute='_compute_dms_automation_state')
-    show_dms_smart_button = fields.Boolean(string='Mostrar Smart Button DMS', compute='_compute_dms_automation_state')
+    dms_directory_id = fields.Many2one(
+        'dms.directory',
+        string='Carpeta DMS',
+        compute='_compute_dms_automation_state',
+    )
+    dms_file_count = fields.Integer(
+        string='Documentos',
+        compute='_compute_dms_automation_state',
+    )
+    show_dms_smart_button = fields.Boolean(
+        string='Mostrar Smart Button DMS',
+        compute='_compute_dms_automation_state',
+    )
 
     def _get_active_automation_rule(self):
         return self.env['ifdw.dms.automation'].sudo().search([
@@ -89,33 +98,104 @@ class DmsAutomationRecordMixin(models.AbstractModel):
             ('model_name', '=', self._name),
         ], order='sequence, id', limit=1)
 
-    def _compute_dms_automation_state(self):
-        rule = self._get_active_automation_rule()
-        for rec in self:
-            directory = rec._get_effective_dms_directory()
-            rec.dms_file_count = directory.count_total_files if directory else 0
-            rec.show_dms_smart_button = bool(rule and rule.show_smart_button) or bool(directory)
+    def _get_active_satellite_lines(self):
+        return self.env['ifdw.dms.automation.satellite.line'].sudo().search([
+            ('satellite_model_id.model', '=', self._name),
+            ('automation_id.active', '=', True),
+        ], order='sequence, id')
 
-    def _get_effective_dms_directory(self):
+    def _find_dms_directory_for_rule(self, rule):
         self.ensure_one()
-        if not self.dms_directory_id or not self.dms_directory_id.exists():
-            return self.env['dms.directory']
-        rule = self._get_active_automation_rule()
-        if rule and rule.storage_id and self.dms_directory_id.storage_id != rule.storage_id:
-            return self.env['dms.directory']
-        return self.dms_directory_id
+        Directory = self.env['dms.directory'].sudo()
+        if not rule or not rule.storage_id or not self.id:
+            return Directory
+
+        storage_id = rule.storage_id.id
+        molde_id = rule.template_root_dir_id.id if rule.template_root_dir_id else 0
+
+        # Primero, búsqueda principal por vínculo técnico (res_model + res_id) en el almacenamiento de la regla
+        if 'res_model' in Directory._fields and 'res_id' in Directory._fields:
+            found = Directory.search([
+                ('storage_id', '=', storage_id),
+                ('res_model', '=', self._name),
+                ('res_id', '=', self.id),
+                ('id', '!=', molde_id),
+            ], limit=1)
+            if found:
+                return found
+
+        # Segundo, fallback por ubicación y nombre (para carpetas creadas antes)
+        target_name = rule._format_cloned_root_name(self)
+        parent_dir = rule.parent_directory_id or rule.template_id.parent_directory_id
+        dom = [
+            ('storage_id', '=', storage_id),
+            ('name', '=', target_name),
+            ('id', '!=', molde_id),
+        ]
+        if parent_dir:
+            dom.append(('parent_id', '=', parent_dir.id))
+        else:
+            dom.append(('is_root_directory', '=', True))
+
+        found = Directory.search(dom, limit=1)
+        if found and 'res_model' in Directory._fields and not found.res_id:
+            found.write({'res_model': self._name, 'res_id': self.id})
+        return found
+
+    def _get_effective_dms_directory(self, rule=None):
+        self.ensure_one()
+        Directory = self.env['dms.directory'].sudo()
+        if not self.id:
+            return Directory
+
+        own_rule = rule or self._get_active_automation_rule()
+        if own_rule:
+            found = self._find_dms_directory_for_rule(own_rule)
+            if found:
+                return found
+
+        # Si el modelo actúa como Modelo Satélite (ej. Tarea -> Proyecto, Contrato -> Empleado, Pedido -> CRM)
+        for sat in self._get_active_satellite_lines():
+            field_name = sat.link_field_id.name
+            if field_name and hasattr(self, field_name):
+                parent_rec = getattr(self, field_name)
+                if parent_rec and hasattr(parent_rec, '_get_effective_dms_directory'):
+                    parent_dir = parent_rec._get_effective_dms_directory(rule=sat.automation_id)
+                    if parent_dir:
+                        return parent_dir
+        return Directory
+
+    def _compute_dms_automation_state(self):
+        own_rule = self._get_active_automation_rule()
+        sat_lines = self._get_active_satellite_lines()
+        sat_show = any(sat.automation_id.show_smart_button for sat in sat_lines)
+        for rec in self:
+            directory = rec._get_effective_dms_directory(rule=own_rule)
+            rec.dms_directory_id = directory.id if directory else False
+            rec.dms_file_count = directory.count_total_files if directory else 0
+            rec.show_dms_smart_button = (
+                bool(own_rule and own_rule.show_smart_button)
+                or sat_show
+                or bool(directory)
+            )
 
     def _ensure_dms_directory_by_rule(self, rule=None):
         self.ensure_one()
-        effective = self._get_effective_dms_directory()
-        if effective:
-            return effective
         rule = rule or self._get_active_automation_rule()
         if not rule:
             return self.env['dms.directory']
+        effective = self._find_dms_directory_for_rule(rule)
+        if effective:
+            return effective
+
         new_dir = rule._clone_template_for_record(self)
         if new_dir:
-            self.sudo().write({'dms_directory_id': new_dir.id})
+            if (
+                'dms_directory_id' in self._fields
+                and not self._fields['dms_directory_id'].compute
+                and not self._fields['dms_directory_id'].related
+            ):
+                self.sudo().with_context(ifdw_skip_dms_clone=True).write({'dms_directory_id': new_dir.id})
             src_rule, dst_rule = rule._get_effective_dest_rule_and_source_rule()
             if dst_rule and dst_rule == rule:
                 rule._execute_file_movement_from_origin(self, new_dir)
@@ -148,6 +228,65 @@ class DmsAutomationRecordMixin(models.AbstractModel):
             },
         }
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        if (
+            self.env.context.get('ifdw_skip_dms_clone')
+            or self.env.context.get('install_mode')
+            or self._name in ('dms.directory', 'dms.file', 'ifdw.dms.automation', 'mail.message')
+        ):
+            return records
+
+        rule = self._get_active_automation_rule()
+        if rule and rule.auto_clone_on_create:
+            for rec in records:
+                try:
+                    if rule._record_matches_domain(rec):
+                        rec._ensure_dms_directory_by_rule(rule)
+                except Exception as e:
+                    _logger.warning("Aviso al clonar plantilla DMS en %s(%s): %s", self._name, rec.id, e)
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if (
+            self.env.context.get('ifdw_skip_dms_clone')
+            or self.env.context.get('install_mode')
+            or self._name in ('dms.directory', 'dms.file', 'ifdw.dms.automation', 'mail.message')
+        ):
+            return res
+
+        rule = self._get_active_automation_rule()
+        if not rule:
+            return res
+
+        src_rule, dst_rule = rule._get_effective_dest_rule_and_source_rule()
+        link_field = (dst_rule.origin_link_field_id or src_rule.out_origin_link_field_id) if (src_rule and dst_rule) else False
+        trigger_fields = {'sale_order_id', 'sale_line_id'}
+        if link_field and link_field.name:
+            trigger_fields.add(link_field.name)
+
+        for rec in self:
+            try:
+                if (trigger_fields & set(vals.keys())) and rule._record_matches_domain(rec):
+                    rec_dir = rec._ensure_dms_directory_by_rule(rule)
+                    if rec_dir and dst_rule and dst_rule == rule:
+                        rule._execute_file_movement_from_origin(rec, rec_dir)
+
+                if 'name' in vals:
+                    directory = rec._find_dms_directory_for_rule(rule)
+                    if directory:
+                        directory.sudo().write({'name': rule._format_cloned_root_name(rec)})
+            except Exception as e:
+                _logger.warning("Aviso actualizando DMS en %s(%s): %s", self._name, rec.id, e)
+        return res
+
+
+class DmsAutomationRecordMixin(models.AbstractModel):
+    _name = 'ifdw.dms.record.mixin'
+    _description = 'Mixin de Conexión con Reglas de Automatización DMS'
+
 
 class CrmLeadDms(models.Model):
     _name = 'crm.lead'
@@ -175,114 +314,20 @@ class CrmLeadDms(models.Model):
         help='Muestra el registro histórico de todos los traspasos de archivos realizados desde esta Oportunidad hacia Proyectos.',
     )
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        records = super().create(vals_list)
-        rule = self._get_active_automation_rule()
-        if rule and rule.auto_clone_on_create:
-            for rec in records:
-                try:
-                    if rule._record_matches_domain(rec):
-                        rec._ensure_dms_directory_by_rule(rule)
-                except Exception as e:
-                    _logger.warning("Aviso al clonar plantilla DMS en CRM %s: %s", rec.id, e)
-        return records
-
-    def write(self, vals):
-        res = super().write(vals)
-        if 'name' in vals:
-            rule = self._get_active_automation_rule()
-            for rec in self:
-                directory = rec._get_effective_dms_directory()
-                if directory and rule:
-                    directory.sudo().write({'name': rule._format_cloned_root_name(rec)})
-        return res
-
 
 class SaleOrderDms(models.Model):
     _name = 'sale.order'
     _inherit = ['sale.order', 'ifdw.dms.record.mixin']
-
-    def _get_effective_dms_directory(self):
-        self.ensure_one()
-        if self.dms_directory_id and self.dms_directory_id.exists():
-            return self.dms_directory_id
-        if self.opportunity_id:
-            return self.opportunity_id._get_effective_dms_directory()
-        return self.env['dms.directory']
-
-    def _compute_dms_automation_state(self):
-        own_rule = self._get_active_automation_rule()
-        sat_line = self.env['ifdw.dms.automation.satellite.line'].sudo().search([
-            ('satellite_model_id.model', '=', 'sale.order'),
-            ('automation_id.active', '=', True),
-        ], limit=1)
-        for rec in self:
-            directory = rec._get_effective_dms_directory()
-            rec.dms_file_count = directory.count_total_files if directory else 0
-            show = bool(own_rule and own_rule.show_smart_button) or bool(
-                sat_line and sat_line.automation_id.show_smart_button
-            ) or bool(directory)
-            rec.show_dms_smart_button = show
 
 
 class ProjectProjectDms(models.Model):
     _name = 'project.project'
     _inherit = ['project.project', 'ifdw.dms.record.mixin']
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        records = super().create(vals_list)
-        rule = self._get_active_automation_rule()
-        if rule and rule.auto_clone_on_create:
-            for proj in records:
-                try:
-                    if rule._record_matches_domain(proj):
-                        proj._ensure_dms_directory_by_rule(rule)
-                except Exception as e:
-                    _logger.warning("Aviso al clonar plantilla DMS en Proyecto %s: %s", proj.id, e)
-        return records
-
-    def write(self, vals):
-        res = super().write(vals)
-        rule = self._get_active_automation_rule()
-        if not rule:
-            return res
-
-        for proj in self:
-            try:
-                if ('sale_order_id' in vals or 'sale_line_id' in vals) and rule._record_matches_domain(proj):
-                    proj_dir = proj._ensure_dms_directory_by_rule(rule)
-                    src_rule, dst_rule = rule._get_effective_dest_rule_and_source_rule()
-                    if proj_dir and dst_rule and dst_rule == rule:
-                        rule._execute_file_movement_from_origin(proj, proj_dir)
-
-                if 'name' in vals:
-                    directory = proj._get_effective_dms_directory()
-                    if directory:
-                        directory.sudo().write({'name': rule._format_cloned_root_name(proj)})
-            except Exception as e:
-                _logger.warning("Aviso actualizando DMS en Proyecto %s: %s", proj.id, e)
-        return res
-
 
 class ProjectTaskDms(models.Model):
     _inherit = 'project.task'
 
-    dms_directory_id = fields.Many2one('dms.directory', related='project_id.dms_directory_id', string='Carpeta DMS de Obra', readonly=True)
-    dms_file_count = fields.Integer(related='project_id.dms_file_count', string='Documentos', readonly=True)
-    show_dms_smart_button = fields.Boolean(string='Mostrar Smart Button DMS', compute='_compute_show_dms_smart_button')
-
-    @api.depends('project_id', 'project_id.show_dms_smart_button')
-    def _compute_show_dms_smart_button(self):
-        for task in self:
-            task.show_dms_smart_button = bool(task.project_id and task.project_id.show_dms_smart_button)
-
-    def action_open_dms_directory(self):
-        self.ensure_one()
-        if not self.project_id:
-            return False
-        return self.project_id.action_open_dms_directory()
 
 
 class IrActionsReportDmsSkip(models.Model):
