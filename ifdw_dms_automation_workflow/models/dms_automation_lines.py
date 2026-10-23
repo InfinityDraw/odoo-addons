@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 
 import os
+import unicodedata
 from odoo import api, fields, models
 from .dms_automation import (
     IMAGE_EXTENSIONS,
@@ -12,6 +13,14 @@ from .dms_automation import (
     DOC_EXTENSIONS,
     ARCHIVE_EXTENSIONS,
 )
+
+
+def _normalize_no_accents(text):
+    """Convierte a minúsculas y elimina tildes/diacríticos (ej. 'Prevención' -> 'prevencion')."""
+    if not text:
+        return ''
+    nfkd = unicodedata.normalize('NFKD', str(text).lower())
+    return ''.join(c for c in nfkd if not unicodedata.combining(c))
 
 
 class IfdwDmsAutomationClassifyLine(models.Model):
@@ -46,6 +55,7 @@ class IfdwDmsAutomationClassifyLine(models.Model):
     file_type_rule = fields.Selection(
         selection=[
             ('images', 'Fotografías e Imágenes (JPG, PNG, HEIC, HEIF, AVIF, WEBP, DNG, RAW...)'),
+            ('docs_and_images', 'Documentos e Imágenes (PDF, Word, Excel, JPG, PNG, HEIC, WEBP...)'),
             ('videos_audios', 'Vídeos y Notas de Voz / Audios (MP4, MOV, WEBM, OGG, OPUS, MP3, M4A...)'),
             ('only_videos', 'Solo Vídeos (MP4, MOV, AVI, MKV, WEBM, 3GP...)'),
             ('only_audios', 'Solo Audios / Notas de Voz (OGG, OPUS, M4A, MP3, WAV...)'),
@@ -62,7 +72,7 @@ class IfdwDmsAutomationClassifyLine(models.Model):
     )
     filename_keywords = fields.Char(
         string='Palabras clave en nombre (Opcional)',
-        help='Palabras separadas por comas (ej. "plano, croquis, medicion, licencia"). En Planos permite distinguir un PDF de plano frente a un PDF de presupuesto.',
+        help='Palabras separadas por comas sin importar mayúsculas ni tildes (ej. "contrato, prevencion, banco, titulo"). Las filas con palabras clave tienen prioridad sobre las genéricas.',
     )
     custom_extensions = fields.Char(
         string='Extensiones extra (Opcional)',
@@ -75,14 +85,37 @@ class IfdwDmsAutomationClassifyLine(models.Model):
         help='Categoría de Documentos > Configuración > Organizar > Categorías que se asignará automáticamente al archivo clasificado.',
     )
 
+    def _is_bitmap_image(self, ext, mimetype):
+        if (
+            ext in CAD_EXTENSIONS
+            or ext == 'svg'
+            or 'svg' in mimetype
+            or 'dwg' in mimetype
+            or 'dxf' in mimetype
+            or 'dwf' in mimetype
+        ):
+            return False
+        return mimetype.startswith('image/') or ext in IMAGE_EXTENSIONS
+
+    def _is_office_or_pdf(self, ext, mimetype):
+        return (
+            mimetype == 'application/pdf'
+            or ext in DOC_EXTENSIONS
+            or 'word' in mimetype
+            or 'excel' in mimetype
+            or 'spreadsheet' in mimetype
+            or 'opendocument' in mimetype
+        )
+
     def _matches_attachment(self, attachment):
         self.ensure_one()
-        fname = (attachment.name or '').lower()
-        ext = os.path.splitext(fname)[1].lstrip('.').lower()
+        raw_fname = attachment.name or ''
+        fname_norm = _normalize_no_accents(raw_fname)
+        ext = os.path.splitext(raw_fname)[1].lstrip('.').lower()
         mimetype = (attachment.mimetype or '').lower()
 
         extra_exts = {e.strip().lstrip('.').lower() for e in (self.custom_extensions or '').split(',') if e.strip()}
-        keywords = [k.strip().lower() for k in (self.filename_keywords or '').split(',') if k.strip()]
+        keywords = [_normalize_no_accents(k.strip()) for k in (self.filename_keywords or '').split(',') if k.strip()]
 
         if self.file_type_rule == 'cad_plans':
             if (
@@ -94,27 +127,21 @@ class IfdwDmsAutomationClassifyLine(models.Model):
                 or mimetype == 'application/acad'
             ):
                 return True
-            if ext == 'pdf' and keywords and any(kw in fname for kw in keywords):
+            if ext == 'pdf' and keywords and any(kw in fname_norm for kw in keywords):
                 return True
             return False
 
-        if keywords and not any(kw in fname for kw in keywords):
+        if keywords and not any(kw in fname_norm for kw in keywords):
             return False
 
         if ext in extra_exts:
             return True
 
         if self.file_type_rule == 'images':
-            if (
-                ext in CAD_EXTENSIONS
-                or ext == 'svg'
-                or 'svg' in mimetype
-                or 'dwg' in mimetype
-                or 'dxf' in mimetype
-                or 'dwf' in mimetype
-            ):
-                return False
-            return mimetype.startswith('image/') or ext in IMAGE_EXTENSIONS
+            return self._is_bitmap_image(ext, mimetype)
+
+        if self.file_type_rule == 'docs_and_images':
+            return self._is_bitmap_image(ext, mimetype) or self._is_office_or_pdf(ext, mimetype)
 
         if self.file_type_rule == 'videos_audios':
             return mimetype.startswith('video/') or mimetype.startswith('audio/') or ext in VIDEO_EXTENSIONS or ext in AUDIO_EXTENSIONS
@@ -123,14 +150,7 @@ class IfdwDmsAutomationClassifyLine(models.Model):
         if self.file_type_rule == 'only_audios':
             return mimetype.startswith('audio/') or ext in AUDIO_EXTENSIONS
         if self.file_type_rule == 'documents':
-            return (
-                mimetype == 'application/pdf'
-                or ext in DOC_EXTENSIONS
-                or 'word' in mimetype
-                or 'excel' in mimetype
-                or 'spreadsheet' in mimetype
-                or 'opendocument' in mimetype
-            )
+            return self._is_office_or_pdf(ext, mimetype)
         if self.file_type_rule == 'archives':
             return ext in ARCHIVE_EXTENSIONS or 'zip' in mimetype or 'compressed' in mimetype
         return False
@@ -155,8 +175,9 @@ class IfdwDmsAutomationSatelliteLine(models.Model):
         'ir.model',
         string='Modelo Extra (Satélite)',
         required=True,
+        domain="[('is_mail_thread', '=', True), ('transient', '=', False)]",
         ondelete='cascade',
-        help='Modelo secundario (ej. Tarea, Pedido de Venta o Factura) cuyos archivos subidos al Chatter irán a la carpeta del modelo principal.',
+        help='Modelo secundario con Chatter (ej. Tarea, Contrato, Pedido de Venta o Factura) cuyos archivos subidos al Chatter irán a la carpeta del modelo principal.',
     )
     link_field_id = fields.Many2one(
         'ir.model.fields',

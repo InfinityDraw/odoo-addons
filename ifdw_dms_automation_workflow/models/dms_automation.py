@@ -392,6 +392,18 @@ class IfdwDmsAutomation(models.Model):
         if 'preventa' in low or 'previo' in low:
             cat = Category.search([('name', 'ilike', 'foto')], limit=1)
             return 'only_inheritance', '', cat.id if cat else False
+        if 'dni' in low or 'pasaporte' in low or 'identidad' in low:
+            cat = Category.search(['|', ('name', 'ilike', 'dni'), ('name', 'ilike', 'pasaporte')], limit=1)
+            return 'docs_and_images', 'dni, nie, nif, pasaporte, tss, identidad', cat.id if cat else False
+        if 'banc' in low or 'cuenta' in low or 'iban' in low:
+            cat = Category.search([('name', 'ilike', 'banc')], limit=1)
+            return 'docs_and_images', 'ccc, iban, banco, bancaria, cuenta, titularidad', cat.id if cat else False
+        if 'prevencion' in low or 'prevención' in low or 'epi' in low:
+            cat = Category.search([('name', 'ilike', 'prevenc')], limit=1)
+            return 'docs_and_images', 'prevencion, prl, epi, epis, apto, medico, reconocimiento', cat.id if cat else False
+        if 'titulacion' in low or 'titulación' in low or 'curso' in low or 'formacion' in low:
+            cat = Category.search(['|', ('name', 'ilike', 'titulac'), ('name', 'ilike', 'curso')], limit=1)
+            return 'docs_and_images', 'curso, titulo, diploma, grado, titulacion, certificacion, formacion', cat.id if cat else False
         if 'foto' in low or 'imagen' in low:
             cat = Category.search([('name', 'ilike', 'foto')], limit=1)
             return 'images', '', cat.id if cat else False
@@ -402,8 +414,8 @@ class IfdwDmsAutomation(models.Model):
             cat = Category.search([('name', 'ilike', 'medicion')], limit=1)
             return 'cad_plans', 'plano, croquis, medicion, licencia, ovp, replanteo', cat.id if cat else False
         if 'presupuesto' in low or 'contrato' in low or 'albaran' in low or 'documento' in low or 'factura' in low:
-            cat = Category.search(['|', ('name', 'ilike', 'presupuesto'), ('name', 'ilike', 'documento')], limit=1)
-            return 'documents', '', cat.id if cat else False
+            cat = Category.search(['|', ('name', 'ilike', 'contrato'), '|', ('name', 'ilike', 'presupuesto'), ('name', 'ilike', 'documento')], limit=1)
+            return 'docs_and_images', '', cat.id if cat else False
         cat = Category.search([('name', 'ilike', 'otro')], limit=1)
         return 'catch_all', '', cat.id if cat else False
 
