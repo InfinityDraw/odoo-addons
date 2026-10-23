@@ -640,11 +640,18 @@ class IfdwDmsAutomation(models.Model):
     def create(self, vals_list):
         records = super().create(vals_list)
         records._sync_bidirectional_movement_mirror()
+        self.env.registry.clear_cache('templates')
         return records
 
     def write(self, vals):
         res = super().write(vals)
         self._sync_bidirectional_movement_mirror()
+        self.env.registry.clear_cache('templates')
+        return res
+
+    def unlink(self):
+        res = super().unlink()
+        self.env.registry.clear_cache('templates')
         return res
 
     def action_dummy_preview_smart_button(self):

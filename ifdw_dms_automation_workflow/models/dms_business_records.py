@@ -228,6 +228,70 @@ class MailThreadDmsUniversal(models.AbstractModel):
             },
         }
 
+    @api.model
+    def _hide_redundant_attachment_buttons_in_arch(self, btn_box):
+        """Oculta botones nativos o de OCA que abren ir.attachment cuando el modelo usa DMS."""
+        att_method_names = {
+            'attachment_tree_view',
+            'action_get_attachment_tree_view',
+            'action_get_attachment_view',
+            'action_open_attachments',
+        }
+        att_field_names = {'doc_count', 'attachment_number', 'attachment_count'}
+        ActWindow = self.env['ir.actions.act_window'].sudo()
+
+        for btn in btn_box.xpath(".//button"):
+            btn_name = (btn.get('name') or '').strip()
+            if not btn_name or btn_name == 'action_open_dms_directory':
+                continue
+            hide_btn = False
+            if btn_name in att_method_names:
+                hide_btn = True
+            elif any(f.get('name') in att_field_names for f in btn.xpath(".//field")):
+                hide_btn = True
+            elif btn.get('type') == 'action' and btn_name.isdigit():
+                act = ActWindow.browse(int(btn_name)).exists()
+                if act and act.res_model == 'ir.attachment':
+                    hide_btn = True
+            if hide_btn:
+                btn.set('invisible', 'True')
+
+    @api.model
+    def _get_view(self, view_id=None, view_type='form', **options):
+        arch, view = super()._get_view(view_id=view_id, view_type=view_type, **options)
+        if view_type == 'form' and arch is not None:
+            try:
+                own_rule = self._get_active_automation_rule()
+                sat_lines = self._get_active_satellite_lines()
+                if own_rule or sat_lines:
+                    button_boxes = arch.xpath("//div[@name='button_box']")
+                    if button_boxes:
+                        from lxml import etree
+                        btn_box = button_boxes[0]
+                        self._hide_redundant_attachment_buttons_in_arch(btn_box)
+                        if not btn_box.xpath(".//button[@name='action_open_dms_directory']"):
+                            inv_field = etree.Element('field', {
+                                'name': 'show_dms_smart_button',
+                                'invisible': '1',
+                            })
+                            btn = etree.Element('button', {
+                                'name': 'action_open_dms_directory',
+                                'type': 'object',
+                                'class': 'oe_stat_button',
+                                'icon': 'fa-folder-open',
+                                'invisible': 'not show_dms_smart_button',
+                            })
+                            etree.SubElement(btn, 'field', {
+                                'name': 'dms_file_count',
+                                'widget': 'statinfo',
+                                'string': _('Doc. DMS'),
+                            })
+                            btn_box.insert(0, btn)
+                            btn_box.insert(0, inv_field)
+            except Exception as e:
+                _logger.warning("Aviso en _get_view DMS para %s: %s", self._name, e)
+        return arch, view
+
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)

@@ -1,98 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- SMART BUTTONS [DOCUMENTOS] Y PESTAÑA 'Ops. Documentos' EN CRM -->
-    <record id="crm_lead_view_form_ifdw_dms" model="ir.ui.view">
-        <field name="name">crm.lead.view.form.ifdw.dms</field>
+
+    <!-- Pestaña "Ops. Documentos" en el formulario de CRM (crm.lead) -->
+    <record id="view_crm_lead_form_ifdw_dms" model="ir.ui.view">
+        <field name="name">crm.lead.form.ifdw.dms</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <field name="show_dms_smart_button" invisible="1"/>
-                <button name="action_open_dms_directory"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-folder-open-o"
-                        invisible="not show_dms_smart_button"
-                        help="Abre la carpeta documental DMS asociada a esta Oportunidad en Almacenamiento Ventas.">
-                    <field name="dms_file_count" widget="statinfo" string="Documentos"/>
-                </button>
-            </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Ops. Documentos" name="ifdw_dms_options">
-                    <group string="Control Granular de Archivos al Generar Proyectos">
-                        <field name="ifdw_project_transfer_policy"/>
-                        <field name="dms_directory_id" readonly="1"/>
+                <page string="Ops. Documentos" name="ifdw_dms_ops_page" invisible="type == 'lead'">
+                    <group string="Política de Traspaso Documental hacia Proyectos (Obras)">
+                        <div class="text-muted mb-2" colspan="2">
+                            <i class="fa fa-info-circle me-1"/>
+                            Define qué debe ocurrir con los archivos de esta Oportunidad cuando apruebes un Presupuesto adicional o de ampliación y se genere un segundo Proyecto.
+                        </div>
+                        <field name="ifdw_project_transfer_policy" widget="radio"/>
                     </group>
-                    <separator string="Historial de Traspasos Documentales a Proyectos"/>
-                    <field name="ifdw_transfer_log_ids" readonly="1">
-                        <list>
-                            <field name="transfer_date"/>
-                            <field name="sale_order_id"/>
-                            <field name="project_id"/>
-                            <field name="files_count"/>
-                            <field name="operation_mode"/>
-                            <field name="crm_policy_used"/>
-                        </list>
-                    </field>
+                    <group string="Historial de Traspasos Realizados desde esta Oportunidad">
+                        <field name="ifdw_transfer_log_ids" nolabel="1" colspan="2">
+                            <list create="0" edit="0" delete="0">
+                                <field name="transfer_date"/>
+                                <field name="sale_order_id"/>
+                                <field name="project_id"/>
+                                <field name="files_count"/>
+                                <field name="operation_mode"/>
+                                <field name="crm_policy_used"/>
+                            </list>
+                        </field>
+                    </group>
                 </page>
             </xpath>
         </field>
     </record>
 
-    <record id="view_order_form_ifdw_dms" model="ir.ui.view">
-        <field name="name">sale.order.form.ifdw.dms</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <field name="show_dms_smart_button" invisible="1"/>
-                <button name="action_open_dms_directory"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-folder-open-o"
-                        invisible="not show_dms_smart_button"
-                        help="Abre la carpeta documental DMS vinculada a este Presupuesto / Pedido de Venta.">
-                    <field name="dms_file_count" widget="statinfo" string="Documentos"/>
-                </button>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="edit_project_ifdw_dms" model="ir.ui.view">
-        <field name="name">project.project.form.ifdw.dms</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.edit_project"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <field name="show_dms_smart_button" invisible="1"/>
-                <button name="action_open_dms_directory"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-folder-open-o"
-                        invisible="not show_dms_smart_button"
-                        help="Abre la carpeta documental DMS de esta Obra / Proyecto.">
-                    <field name="dms_file_count" widget="statinfo" string="Documentos"/>
-                </button>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="view_task_form2_ifdw_dms" model="ir.ui.view">
-        <field name="name">project.task.form.ifdw.dms</field>
-        <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <field name="show_dms_smart_button" invisible="1"/>
-                <button name="action_open_dms_directory"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-folder-open-o"
-                        invisible="not show_dms_smart_button"
-                        help="Abre la carpeta documental DMS del Proyecto al que pertenece esta Tarea.">
-                    <field name="dms_file_count" widget="statinfo" string="Documentos"/>
-                </button>
-            </xpath>
-        </field>
-    </record>
 </odoo>

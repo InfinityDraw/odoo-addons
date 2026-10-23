@@ -14,3 +14,6 @@ access_ifdw_dms_move_line_user,ifdw.dms.automation.move.line.user,model_ifdw_dms
 access_ifdw_dms_crm_transfer_log_user,ifdw.dms.crm.transfer.log.user,model_ifdw_dms_crm_transfer_log,base.group_user,1,1,1,0
 access_ifdw_dms_crm_transfer_log_manager,ifdw.dms.crm.transfer.log.manager,model_ifdw_dms_crm_transfer_log,dms.group_dms_manager,1,1,1,1
 access_ifdw_dms_crm_transfer_log_system,ifdw.dms.crm.transfer.log.system,model_ifdw_dms_crm_transfer_log,base.group_system,1,1,1,1
+access_ifdw_dms_general_folder_line_user,ifdw.dms.general.folder.line.user,model_ifdw_dms_general_folder_line,base.group_user,1,0,0,0
+access_ifdw_dms_general_folder_line_manager,ifdw.dms.general.folder.line.manager,model_ifdw_dms_general_folder_line,dms.group_dms_manager,1,1,1,1
+access_ifdw_dms_general_folder_line_system,ifdw.dms.general.folder.line.system,model_ifdw_dms_general_folder_line,base.group_system,1,1,1,1

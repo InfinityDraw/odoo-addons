@@ -41,7 +41,7 @@
                                 title="Muestra visual de cómo se verá el botón inteligente en los formularios (Botón de vista previa sin actividad)">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value">Muestra</span>
-                                <span class="o_stat_text">Documentos</span>
+                                <span class="o_stat_text">Doc. DMS</span>
                             </div>
                         </button>
                     </div>
@@ -69,9 +69,11 @@
                             <field name="template_id"
                                    options="{'no_create': True, 'no_create_edit': True}"/>
                             <field name="storage_id" readonly="1"/>
+                            <field name="parent_directory_id" readonly="1"/>
                             <field name="model_id" readonly="1"/>
                             <field name="group_ids" widget="many2many_tags" readonly="1"/>
-                            <field name="template_root_dir_id" readonly="1"/>
+                            <field name="template_root_dir_id"
+                                   options="{'no_create': True, 'no_create_edit': True}"/>
                         </group>
 
                         <group string="Opciones y comportamiento generales">
@@ -262,4 +264,61 @@
               action="action_ifdw_dms_automation"
               sequence="12"
               groups="dms.group_dms_manager,base.group_system"/>
+
+    <!-- VISTA LISTA EDITABLE: 10 CARPETAS DEL ALMACENAMIENTO GENERAL -->
+    <record id="view_ifdw_dms_general_folder_line_list" model="ir.ui.view">
+        <field name="name">ifdw.dms.general.folder.line.list</field>
+        <field name="model">ifdw.dms.general.folder.line</field>
+        <field name="arch" type="xml">
+            <list string="10 Carpetas Estándar y Extensiones del Almacenamiento General" editable="bottom" create="0" delete="0">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="extensions" placeholder="Ej: jpg, png, webp..."/>
+                <field name="is_catch_all" widget="boolean_toggle" readonly="1"/>
+                <field name="directory_id" readonly="1" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- AJUSTES > DOCUMENTOS: AJUSTES GENERALES DE AUTOMATIZACIÓN DMS -->
+    <record id="res_config_settings_view_form_ifdw_dms_automation" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.ifdw.dms.automation</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="dms.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='documents_forbidden_extensions']/ancestor::block" position="after">
+                <block title="Ajustes generales de Automatización DMS" name="ifdw_dms_general_automation_block">
+                    <setting id="ifdw_enable_global_chatter_dms_setting"
+                             string="Captura global automática de Chatters sin regla específica"
+                             help="Guarda y clasifica automáticamente por extensión en un almacenamiento exclusivo todos los archivos subidos a cualquier Chatter de Odoo que no tenga una regla específica en Automatización DMS.">
+                        <field name="ifdw_enable_global_chatter_dms"/>
+                        <div class="content-group mt16" invisible="not ifdw_enable_global_chatter_dms">
+                            <div class="row mt8">
+                                <label for="ifdw_general_storage_name" class="col-lg-4 o_light_label"/>
+                                <field name="ifdw_general_storage_name" class="oe_inline" required="ifdw_enable_global_chatter_dms"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="ifdw_general_access_group_ids" class="col-lg-4 o_light_label"/>
+                                <field name="ifdw_general_access_group_ids"
+                                       widget="many2many_tags"
+                                       placeholder="Si lo dejas vacío se creará un acceso interno automático"/>
+                            </div>
+                            <div class="row mt8" invisible="not ifdw_general_storage_id">
+                                <label for="ifdw_general_storage_id" class="col-lg-4 o_light_label"/>
+                                <field name="ifdw_general_storage_id" readonly="1"/>
+                            </div>
+                            <div class="mt16">
+                                <button name="action_open_general_folder_lines"
+                                        type="object"
+                                        string="Configurar las 10 Carpetas y Extensiones"
+                                        icon="fa-folder-open"
+                                        class="btn-secondary"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
 </odoo>
+
