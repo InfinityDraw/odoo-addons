@@ -815,3 +815,179 @@ msgstr "Opens the DMS document folder of the Project to which this Task belongs.
 #, python-format
 msgid "Requisito previo no encontrado: Para instalar 'ifdw_dms_automation_workflow' debes instalar primero los módulos oficiales de la OCA: %s."
 msgstr "Missing prerequisite: To install 'ifdw_dms_automation_workflow', you must first install the official OCA modules: %s."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model,name:ifdw_dms_automation_workflow.model_ifdw_dms_general_folder_line
+msgid "Carpeta Estándar del Almacenamiento General DMS"
+msgstr "DMS General Storage Standard Folder"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_automation__parent_directory_id
+msgid "Carpeta padre de destino"
+msgstr "Target Parent Folder"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__parent_directory_id
+msgid "Carpeta maestra donde se crearán las carpetas clonadas de cada registro (Heredada de la Plantilla DMS embebida)."
+msgstr "Master folder where cloned folders for each record will be created (Inherited from the Embedded DMS Template)."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation__template_root_dir_id
+msgid "Carpeta en Documentos > Carpetas que actúa como molde oficial de esta Plantilla DMS embebida. Se autocompleta sola, pero puedes cambiarla manualmente."
+msgstr "Folder in Documents > Directories that acts as the official blueprint for this Embedded DMS Template. Auto-populated, but can be changed manually."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields.selection,name:ifdw_dms_automation_workflow.selection__ifdw_dms_automation_classify_line__file_type_rule__docs_and_images
+msgid "Documentos e Imágenes (PDF, Word, Excel, JPG, PNG, HEIC, WEBP...)"
+msgstr "Documents & Images (PDF, Word, Excel, JPG, PNG, HEIC, WEBP...)"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_classify_line__filename_keywords
+msgid "Palabras separadas por comas sin importar mayúsculas ni tildes (ej. \"contrato, prevencion, banco, titulo\"). Las filas con palabras clave tienen prioridad sobre las genéricas."
+msgstr "Comma-separated words, case and accent insensitive (e.g., \"contract, safety, bank, degree\"). Rows with keywords take priority over generic rows."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_automation_satellite_line__satellite_model_id
+msgid "Modelo secundario con Chatter (ej. Tarea, Contrato, Pedido de Venta o Factura) cuyos archivos subidos al Chatter irán a la carpeta del modelo principal."
+msgstr "Secondary model with Chatter (e.g., Task, Contract, Sales Order, or Invoice) whose files uploaded to the Chatter will be routed to the main model folder."
+
+#. module: ifdw_dms_automation_workflow
+#: code:addons/ifdw_dms_automation_workflow/models/dms_business_records.py:0
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_automation_form
+msgid "Doc. DMS"
+msgstr "DMS Docs"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__code
+msgid "Código Interno"
+msgstr "Internal Code"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__name
+msgid "Nombre de la Carpeta"
+msgstr "Folder Name"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__name
+msgid "Nombre de la carpeta raíz dentro del Almacenamiento General. Si lo cambias aquí, se renombrará automáticamente en el DMS."
+msgstr "Name of the root folder inside the General Storage. If changed here, it will be automatically renamed in the DMS."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__extensions
+msgid "Extensiones admitidas (separadas por comas)"
+msgstr "Allowed Extensions (comma-separated)"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__extensions
+msgid "Lista de extensiones sin punto (ej. \"jpg, png, webp\"). La carpeta 10 - Otros actúa además como cajón de sastre para cualquier extensión no listada en las anteriores."
+msgstr "List of extensions without the dot (e.g., \"jpg, png, webp\"). Folder 10 - Others also acts as a catch-all for any extension not listed in previous folders."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__is_catch_all
+msgid "Es Cajón de Sastre (Otros)"
+msgstr "Is Catch-All (Others)"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__is_catch_all
+msgid "Recibe automáticamente cualquier archivo cuya extensión no coincida con las carpetas anteriores."
+msgstr "Automatically receives any file whose extension does not match the previous folders."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__directory_id
+msgid "Carpeta DMS Vinculada"
+msgstr "Linked DMS Folder"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_ifdw_dms_general_folder_line__directory_id
+msgid "Referencia directa a la carpeta física en el DMS para mantener el vínculo aunque la renombres."
+msgstr "Direct reference to the physical DMS folder to keep the link even if renamed."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_enable_global_chatter_dms
+msgid "Capturar automáticamente archivos de cualquier Chatter sin regla específica"
+msgstr "Automatically capture files from any Chatter without a specific rule"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_enable_global_chatter_dms
+msgid "Si está activo, cualquier archivo que se suelte en un Chatter que no tenga una regla en Automatización DMS se guardará y clasificará automáticamente por su extensión en el almacenamiento general exclusivo."
+msgstr "If enabled, any file dropped into a Chatter that has no specific DMS Automation rule will be automatically saved and classified by extension in the dedicated general storage."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_general_storage_name
+msgid "Nombre del Almacenamiento General Exclusivo"
+msgstr "Dedicated General Storage Name"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_general_storage_name
+msgid "Nombre del almacenamiento exclusivo que se creará automáticamente al guardar estos ajustes."
+msgstr "Name of the dedicated storage that will be automatically created when saving these settings."
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_general_storage_id
+msgid "Almacenamiento General Creado"
+msgstr "Created General Storage"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,field_description:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_general_access_group_ids
+msgid "Grupos de acceso DMS para este Almacenamiento"
+msgstr "DMS Access Groups for this Storage"
+
+#. module: ifdw_dms_automation_workflow
+#: model:ir.model.fields,help:ifdw_dms_automation_workflow.field_res_config_settings__ifdw_general_access_group_ids
+msgid "Define qué grupos de acceso DMS podrán ver y gestionar las 10 carpetas estándar del almacenamiento general."
+msgstr "Defines which DMS access groups can view and manage the 10 standard folders of the general storage."
+
+#. module: ifdw_dms_automation_workflow
+#: code:addons/ifdw_dms_automation_workflow/models/dms_general_settings.py:0
+msgid "Configurar las 10 Carpetas y Extensiones del Almacenamiento General"
+msgstr "Configure the 10 Folders and Extensions of the General Storage"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_general_folder_line_list
+msgid "10 Carpetas Estándar y Extensiones del Almacenamiento General"
+msgstr "10 Standard Folders and Extensions of the General Storage"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_ifdw_dms_general_folder_line_list
+msgid "Ej: jpg, png, webp..."
+msgstr "E.g.: jpg, png, webp..."
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.res_config_settings_view_form_ifdw_dms_automation
+msgid "Ajustes generales de Automatización DMS"
+msgstr "DMS Automation General Settings"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.res_config_settings_view_form_ifdw_dms_automation
+msgid "Captura global automática de Chatters sin regla específica"
+msgstr "Automatic global capture of Chatters without a specific rule"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.res_config_settings_view_form_ifdw_dms_automation
+msgid "Guarda y clasifica automáticamente por extensión en un almacenamiento exclusivo todos los archivos subidos a cualquier Chatter de Odoo que no tenga una regla específica en Automatización DMS."
+msgstr "Automatically saves and classifies by extension in a dedicated storage all files uploaded to any Odoo Chatter that does not have a specific rule in DMS Automation."
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.res_config_settings_view_form_ifdw_dms_automation
+msgid "Si lo dejas vacío se creará un acceso interno automático"
+msgstr "If left empty, an internal access group will be created automatically"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.res_config_settings_view_form_ifdw_dms_automation
+msgid "Configurar las 10 Carpetas y Extensiones"
+msgstr "Configure the 10 Folders and Extensions"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_crm_lead_form_ifdw_dms
+msgid "Política de Traspaso Documental hacia Proyectos (Obras)"
+msgstr "Document Transfer Policy to Projects (Works)"
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_crm_lead_form_ifdw_dms
+msgid "Define qué debe ocurrir con los archivos de esta Oportunidad cuando apruebes un Presupuesto adicional o de ampliación y se genere un segundo Proyecto."
+msgstr "Define what should happen with this Opportunity's files when you confirm an additional or expansion Quotation and a second Project is generated."
+
+#. module: ifdw_dms_automation_workflow
+#: model_terms:ir.ui.view,arch_db:ifdw_dms_automation_workflow.view_crm_lead_form_ifdw_dms
+msgid "Historial de Traspasos Realizados desde esta Oportunidad"
+msgstr "History of Transfers Performed from this Opportunity"
